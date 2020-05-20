@@ -4,12 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
+    {% load static %}
+    <link rel="stylesheet" href="{% static '/style.css' %}">
     {% block links %}
     {% endblock %}
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
+    <header>
+        <nav class="header-nav">
+            <img src="" alt="logo" class="header-nav__logo">
+            <div class="header-nav__buttons">
+                <input id='search-toggle' type="checkbox" style="display: none;">
+                <label for="search-toggle" class="search-toggle">
+                    <svg width="25", height="25">
+                        <path d="M20.067 18.933l-4.157-4.157a6 6 0 1 0-.884.884l4.157 4.157a.624.624 0 1 0 .884-.884zM6.5 11c0-2.62 2.13-4.75 4.75-4.75S16 8.38 16 11s-2.13 4.75-4.75 4.75S6.5 13.62 6.5 11z"></path>
+                    </svg>
+                </label>
+                <input type="text" name="search" class="search-input" placeholder="Search">
+
+                <a href="#" class="signin-link">Войти</a>
+
+                <!-- <a href="#" class="show-menu">
+                    <img src="/media/img/default_images/defaultUser.png" alt="Avatar" width="35px" height="35px">
+                </a> -->
+
+            </div>
+        </nav>
+    </header>
     {% block content %}{% endblock %}
 </body>
 </html>
