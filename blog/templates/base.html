@@ -32,6 +32,45 @@
             </div>
         </nav>
     </header>
+    <div class="wrapper">
+        <div class="filters-wrapper">
+               <div class="filters">
+                   <div class="filters__inner">
+                       <span class="link-container"><a href="#" class="filters__link">Популярное</a></span>
+                       <span class="link-container"><a href="#" class="filters__link">Короновирус</a></span>
+                       <span class="link-container"><a href="#" class="filters__link">Искусство</a></span>
+                       <span class="link-container"><a href="#" class="filters__link">Красота</a></span>
+                       <span class="link-container"><a href="#" class="filters__link">Книги</a></span>
+                       <span class="link-container"><a href="#" class="filters__link">Комиксы</a></span>
+                       <span class="link-container"><a href="#" class="filters__link">Культура</a></span>
+                       <span class="link-container"><a href="#" class="filters__link">Еда</a></span>
+                       <span class="link-container"><a href="#" class="filters__link">Фильмы</a></span>
+                       <span class="link-container"><a href="#" class="filters__link">Игры</a></span>
+                       <span class="link-container"><a href="#" class="filters__link">Музыка</a></span>
+                       <span class="link-container"><a href="#" class="filters__link">Фотография</a></span>
+                       <span class="link-container"><a href="#" class="filters__link">Программирование</a></span>
+                       <span class="link-container"><a href="#" class="filters__link">Спорт</a></span>
+                       <span class="link-container"><a href="#" class="filters__link">Дизайн</a></span>
+                       <span class="link-container"><a href="#" class="filters__link">Экология</a></span>
+                       <span class="link-container"><a href="#" class="filters__link">Работа</a></span>
+                       <span class="link-container"><a href="#" class="filters__link">Мобильная разработка</a></span>
+                       <span class="link-container"><a href="#" class="filters__link">Математика</a></span>
+                   </div>
+               </div>
+               <a class="prev disabled">
+                   <svg width="21" height="21">
+                       <path d="M13.402 16.957l-6.478-6.479L13.402 4l.799.71-5.768 5.768 5.768 5.77z" fill-rule="evenodd"></path>  
+                   </svg>
+               </a>
+               <a class="next">
+                   <svg width="21" height="21">
+                       <path d="M8.3 4.2l6.4 6.3-6.4 6.3-.8-.8 5.5-5.5L7.5 5" fill-rule="evenodd"></path>
+                   </svg>
+               </a>
+           </div>
+    </div>
     {% block content %}{% endblock %}
+    {% load static %}
+    <script src="{% static '/filterSlider.js' %}"></script>
 </body>
 </html>

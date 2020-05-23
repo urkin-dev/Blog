@@ -4,6 +4,11 @@ body {
     font-family: sans-serif;
 }
 
+.wrapper {
+    width: 80%;
+    margin: 0 auto;
+}
+
 header {
     width: 100%;
     height: 65px;
@@ -69,4 +74,72 @@ header {
 .signin-link {
     text-decoration: none;
     color: #000;
+}
+
+/* **************************** FILTERS **************************** */
+
+.filters-wrapper {
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.filters {
+    width: 95%;
+    overflow: hidden;
+}
+
+.filters__inner {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+.filters-wrapper .next,
+.filters-wrapper .prev {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    outline: none;
+    height: 21px;
+    width: 21px;
+}
+
+.filters-wrapper .next:hover,
+.filters-wrapper .prev:hover {
+    cursor: pointer;
+}
+
+.disabled {
+    fill: rgb(184, 184, 184);
+}
+
+.filters-wrapper .prev {
+    top: 0px;
+    left: 0;
+}
+
+.filters-wrapper .next {
+    top: 0;
+    right: 0;
+}
+
+.filters .link-container {
+    white-space: nowrap;
+}
+
+.filters .link-container:not(:last-child) {
+    margin-right: 20px;
+}
+
+.filters__link {
+    text-decoration: none;
+    text-transform: uppercase;
+    color: rgb(128, 128, 128);
+    font-size: 14px;
+    display: inline;
 }

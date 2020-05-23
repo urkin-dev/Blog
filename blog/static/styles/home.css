@@ -1,70 +1,188 @@
-.wrapper {
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+/* **************************** POPULAR ARTICLES **************************** */
+
+.main-title {
+    font-size: 44px;
+    color: #2f2f2f;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 30px;
+}
+
+.popular-wrapper {
+    display: flex;
+    margin-top: 30px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.popular-wrapper__most-popular {
+    width: 65%;
+}
+
+.popular-wrapper__less-popular {
+    width: 35%;
+    padding-left: 20px;
+}
+
+.popular-article {
+    margin-bottom: 30px;
+}
+
+.popular-article__img {
+    height: 250px;
+    max-height: 250px;
+    width: 100%;
+}
+
+.popular-wrapper__most-popular .popular-article__img {
+    width: 100%;
+    height: 380px;
+    max-height: 380px;
+}
+
+.popular-article__title {
+    color: #2f2f2f;
+    margin: 0;
+    padding: 0;
+    margin-top: 10px;
+}
+
+.popular-wrapper__most-popular .popular-article__title {
+    font-size: 44px;
+}
+
+.popular-article__desc {
+    color: rgb(80, 80, 80);
+    font-size: 16px;
+    padding: 0;
+    margin: 0;
+    margin: 10px 0;
+}
+
+.popular-article__author-name {
+    color: #2f2f2f;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.popular-article__date {
+    color: #2f2f2f;
+    font-size: 12px;
+    margin-left: 5px;
+}
+
+/* **************************** ARTICLES **************************** */
+
+.article-wrapper {
     width: 80%;
     margin: 0 auto;
-}
-
-.filters-wrapper {
-    width: 100%;
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     position: relative;
+    padding-bottom: 20px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
-.filters {
-    width: 95%;
-    overflow: hidden;
-}
-
-.filters__inner {
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
-}
-
-.filters-wrapper .next,
-.filters-wrapper .prev {
+.article-wrapper::after {
+    content: '';
     position: absolute;
+    bottom: 0px;  
+    height: 400px;
+    width: 100%;
+    background: linear-gradient(to top,
+        rgba(255,255,255, 1) 10%, 
+        rgba(255,255,255, 0) 90%
+    );
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.article {
+    display: flex;
+    align-items: center;
+    height: 250px;
+    border-top: 1px solid rgb(182, 182, 182);
+}
+
+.article__content {
+    margin-right: 30px;
+}
+
+.article__title {
+    font-size: 24px;
+    color: #000;
+    padding: 0;
+    margin: 0;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.aritcle__desc {
+    margin: 10px 0;
+    padding: 0;
+    font-size: 18px;
+    line-height: 24px;
+    color: #000;
+}
+
+.article__author-name {
+    font-size: 16px;
+    color: rgb(106, 11, 255);
+    text-decoration: none;
+}
+
+.article__date {
+    font-size: 14px;
+    color: rgb(92, 92, 92);
+}
+
+.article__img {
+    width: 240px;
+    min-width: 240px;
+    height: 170px;
+    min-height: 160px;
+}
+
+.load-btn {
+    position: absolute;
+    z-index: 1001;
+    bottom: 0;
+    height: 21px;
+    background-color: transparent;
+    color: #6740c2;
+    border: none;
+    width: 160px;
+    text-align: left;
+    outline: none;
+    font-size: 14px;
+    left: 50%;
+    transform: translateX(-80px);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    transition: .3s opacity;
+}
+
+.load-btn:hover {
+    cursor: pointer;
+    opacity: .8;
+}
+
+/* **************************** FOOTER **************************** */
+
+footer {
+    width: 100%;
+    height: 80px;
+    max-height: 80px;
+    border-top: 1px solid rgb(182, 182, 182);
+    margin-top: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
-    outline: none;
-    height: 21px;
-    width: 21px;
 }
 
-.filters-wrapper .next:hover,
-.filters-wrapper .prev:hover {
-    cursor: pointer;
-}
-
-.disabled {
-    fill: rgb(184, 184, 184);
-}
-
-.filters-wrapper .prev {
-    top: 0px;
-    left: 0;
-}
-
-.filters-wrapper .next {
-    top: 0;
-    right: 0;
-}
-
-.filters .link-container {
-    white-space: nowrap;
-}
-
-.filters .link-container:not(:last-child) {
-    margin-right: 20px;
-}
-
-.filters__link {
-    text-decoration: none;
-    text-transform: uppercase;
-    color: rgb(128, 128, 128);
-    font-size: 14px;
-    display: inline;
+.footer__info {
+    color: rgb(94, 94, 94);
+    font-size: 12px;
 }

@@ -20,7 +20,7 @@ filterSlider.style.width = actualSliderWidth + `px`; // Set container width = wi
 filterNext.onmousedown = function(e) {
 
     if (e.button == 2 || e.button == 3) {
-        return;
+        return false;
     }
 
     let timer = setInterval(() => {
@@ -28,7 +28,7 @@ filterNext.onmousedown = function(e) {
             delta = actualSliderWidth - filterWidth;
             filterSlider.style.transform = `translateX(-${delta}px)`;
             this.classList.add('disabled');
-            return;
+            return false;
         } else {
             delta += 15;
         }
@@ -39,7 +39,7 @@ filterNext.onmousedown = function(e) {
 
     this.onmouseup = () => { 
         clearInterval(timer);
-        return;
+        return false;
     }
 
 }
@@ -47,14 +47,14 @@ filterNext.onmousedown = function(e) {
 filterPrev.onmousedown = function(e) {
 
     if (e.button == 2 || e.button == 3) {
-        return;
+        return false;
     }
 
     let timer = setInterval(() => {
         if ((delta) <= 0) {
             filterSlider.style.transform = `translateX(0px)`;
             this.classList.add('disabled');
-            return
+            return false;
         } else {
             delta -= 15;
         }
@@ -65,7 +65,7 @@ filterPrev.onmousedown = function(e) {
 
     this.onmouseup = () => { 
         clearInterval(timer);
-        return;
+        return false;
     }
 
 }

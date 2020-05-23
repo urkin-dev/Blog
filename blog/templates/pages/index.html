@@ -9,42 +9,56 @@
 
 {% block content %}
     <div class="wrapper">
-        <div class="filters-wrapper">
-            <div class="filters">
-                <div class="filters__inner">
-                    <span class="link-container"><a href="#" class="filters__link">Популярное</a></span>
-                    <span class="link-container"><a href="#" class="filters__link">Короновирус</a></span>
-                    <span class="link-container"><a href="#" class="filters__link">Искусство</a></span>
-                    <span class="link-container"><a href="#" class="filters__link">Красота</a></span>
-                    <span class="link-container"><a href="#" class="filters__link">Книги</a></span>
-                    <span class="link-container"><a href="#" class="filters__link">Комиксы</a></span>
-                    <span class="link-container"><a href="#" class="filters__link">Культура</a></span>
-                    <span class="link-container"><a href="#" class="filters__link">Еда</a></span>
-                    <span class="link-container"><a href="#" class="filters__link">Фильмы</a></span>
-                    <span class="link-container"><a href="#" class="filters__link">Игры</a></span>
-                    <span class="link-container"><a href="#" class="filters__link">Музыка</a></span>
-                    <span class="link-container"><a href="#" class="filters__link">Фотография</a></span>
-                    <span class="link-container"><a href="#" class="filters__link">Программирование</a></span>
-                    <span class="link-container"><a href="#" class="filters__link">Спорт</a></span>
-                    <span class="link-container"><a href="#" class="filters__link">Дизайн</a></span>
-                    <span class="link-container"><a href="#" class="filters__link">Экология</a></span>
-                    <span class="link-container"><a href="#" class="filters__link">Работа</a></span>
-                    <span class="link-container"><a href="#" class="filters__link">Мобильная разработка</a></span>
-                    <span class="link-container"><a href="#" class="filters__link">Математика</a></span>
+        <div class="popular-wrapper">
+            <div class="popular-wrapper__most-popular">
+                <h1 class="main-title">Popular on our blog</h1>
+                <div class="popular-article">
+                    <img src="/media/img/articles/ApplicationFrameHost_hbNgwifw5B (2).png" alt="Article image" class="popular-article__img">
+                    <h2 class="popular-article__title">Most popular article</h2>
+                    <p class="popular-article__desc">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quo, quas nam magni consequatur aut ipsa.</p>
+                    <a href="#" class="popular-article__author-name">Author name</a>
+                    <span class="popular-article__date">25.05.2020</span>
                 </div>
             </div>
-            <a class="prev disabled">
-                <svg width="21" height="21">
-                    <path d="M13.402 16.957l-6.478-6.479L13.402 4l.799.71-5.768 5.768 5.768 5.77z" fill-rule="evenodd"></path>  
+            <div class="popular-wrapper__less-popular">
+                <div class="popular-article">
+                    <img src="/media/img/articles/duck-meet-4127713_1920.jpg" alt="Article image" class="popular-article__img">
+                    <h2 class="popular-article__title">Popular article</h2>
+                    <p class="popular-article__desc">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quo, quas nam magni consequatur aut ipsa.</p>
+                    <a href="#" class="popular-article__author-name">Author name</a>
+                    <span class="popular-article__date">25.05.2020</span>
+                </div>
+                <div class="popular-article">
+                    <img src="/media/img/articles/field-grass-leisure-1438517.jpg" alt="Article image" class="popular-article__img">
+                    <h2 class="popular-article__title">Popular article</h2>
+                    <p class="popular-article__desc">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quo, quas nam magni consequatur aut ipsa.</p>
+                    <a href="#" class="popular-article__author-name">Author name</a>
+                    <span class="popular-article__date">25.05.2020</span>
+                </div>
+            </div>
+        </div>
+        <div class="article-wrapper">
+
+            {% for i in '0123456789'|make_list %}
+                <div class="article">
+                    <div class="article__content">
+                        <a href="#" class="article__title">Some title</a>
+                        <p class="aritcle__desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis sequi aliquam reiciendis vero at quaerat.</p>
+                        <a href="#" class="article__author-name">No name</a>
+                        <p class="article__date">05.05.2020</p>
+                    </div>
+                    <img src="/media/img/articles/duck-meet-4127713_1920.jpg" alt="Article image" class="article__img">
+                </div>
+            {% endfor %}
+            <button class="load-btn">
+                Загрузить ещё
+                <svg width="21" height="21" viewBox="0 0 21 21">
+                    <path d="M4 7.33L10.03 14l.5.55.5-.55 5.96-6.6-.98-.9-5.98 6.6h1L4.98 6.45z" fill-rule="evenodd"></path>
                 </svg>
-            </a>
-            <a class="next">
-                <svg width="21" height="21">
-                    <path d="M8.3 4.2l6.4 6.3-6.4 6.3-.8-.8 5.5-5.5L7.5 5" fill-rule="evenodd"></path>
-                </svg>
-            </a>
+            </button>
         </div>
     </div>
-    {% load static %}
-    <script src="{% static '/home.js' %}"></script>
+    <footer>
+        <p class="footer__info">© 2020 Yurkin Ivan | Dev version</p>
+    </footer>
 {% endblock content %}
