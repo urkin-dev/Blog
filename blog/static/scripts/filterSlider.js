@@ -5,7 +5,9 @@ let
     filterLinks       = document.querySelectorAll('.link-container'),
     filterWidth       = document.querySelector('.filters').clientWidth,
     actualSliderWidth = 0,
-    delta             = 0;
+    delta             = 0,
+    pressHoldDuration,
+    timerID;
 
 // Calculate real width slider with filters and margins
 filterLinks.forEach(link => {
@@ -17,55 +19,84 @@ actualSliderWidth -= 20;
 
 filterSlider.style.width = actualSliderWidth + `px`; // Set container width = with of all filters
 
-filterNext.onmousedown = function(e) {
+filterNext.addEventListener("mousedown", pressDown, false);
+filterNext.addEventListener("mouseup", notPressDown, false);
+filterNext.addEventListener("mouseleave", notPressDown, false);
+filterPrev.addEventListener("mousedown", pressDown, false);
+filterPrev.addEventListener("mouseup", notPressDown, false);
+filterPrev.addEventListener("mouseleave", notPressDown, false);
 
+/**
+ * Starts requestAnimationFrame depends on the button class(next or prev)
+ * @param {Object} e Event object
+ */
+function pressDown(e) {
     if (e.button == 2 || e.button == 3) {
-        return false;
+        e.preventDefault();
     }
 
-    let timer = setInterval(() => {
-        if ((delta + filterWidth) >= actualSliderWidth) {
-            delta = actualSliderWidth - filterWidth;
-            filterSlider.style.transform = `translateX(-${delta}px)`;
-            this.classList.add('disabled');
-            return false;
-        } else {
-            delta += 15;
-        }
+    if (this.classList.contains('next')) {
+        
+        pressHoldDuration = actualSliderWidth - filterWidth;
+        requestAnimationFrame(moveSliderRight);
+
+    } else if (this.classList.contains('prev')) {
     
-        filterPrev.classList.remove('disabled');
-        filterSlider.style.transform = `translateX(-${delta}px)`;
-    }, 30);
+        pressHoldDuration = 0;
+        requestAnimationFrame(moveSliderLeft);
 
-    this.onmouseup = () => { 
-        clearInterval(timer);
-        return false;
     }
+
+    e.preventDefault();
+}
+
+/**
+ * Clear animationFrame and change button class on disable if delta has reached the limit
+ * @param {Object} e Event object
+ */
+function notPressDown(e) {
+    if (delta + filterWidth == actualSliderWidth) {
+        filterNext.classList.add('disabled');
+        filterPrev.classList.remove('disabled');
+    } else if (delta == 0) {
+        filterPrev.classList.add('disabled');
+        filterNext.classList.remove('disabled');
+    } else {
+        filterPrev.classList.remove('disabled');
+        filterNext.classList.remove('disabled');
+    }
+
+    cancelAnimationFrame(timerID);
+
+    e.preventDefault();
+}
+
+/**
+ * Moves slider to right until mouse button will up
+ */
+function moveSliderRight() {
+    if (delta < pressHoldDuration) {
+        timerID = requestAnimationFrame(moveSliderRight);
+        delta+=7;
+    } else {
+        delta = pressHoldDuration;
+    }
+
+    filterSlider.style.transform = `translateX(-${delta}px)`;
 
 }
 
-filterPrev.onmousedown = function(e) {
-
-    if (e.button == 2 || e.button == 3) {
-        return false;
+/**
+ * Moves slider to left until mouse button will up
+ */
+function moveSliderLeft() {
+    if (delta > pressHoldDuration) {
+        timerID = requestAnimationFrame(moveSliderLeft);
+        delta-=7;
+    } else {
+        delta = pressHoldDuration;
     }
 
-    let timer = setInterval(() => {
-        if ((delta) <= 0) {
-            filterSlider.style.transform = `translateX(0px)`;
-            this.classList.add('disabled');
-            return false;
-        } else {
-            delta -= 15;
-        }
-
-        filterNext.classList.remove('disabled');
-        filterSlider.style.transform = `translateX(-${delta}px)`;
-    }, 30);
-
-    this.onmouseup = () => { 
-        clearInterval(timer);
-        return false;
-    }
+    filterSlider.style.transform = `translateX(-${delta}px)`;
 
 }

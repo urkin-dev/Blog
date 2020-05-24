@@ -15,11 +15,11 @@ class Category(models.Model):
 
 class Article(models.Model):
     article_image       = models.ImageField(upload_to='img/articles', max_length=100, default='img/default/default.jpg')
-    article_title       = models.CharField('Название статьи', max_length = 200)
-    article_description = models.CharField('Краткое описание статьи', max_length = 450)
+    article_title       = models.CharField('Название статьи', max_length = 30)
+    article_description = models.CharField('Краткое описание статьи', max_length = 45)
     article_text        = models.TextField('Текст статьи')
     pub_date            = models.DateTimeField('Дата публикации')
-    is_main_article     = models.BooleanField(default=False)
+    is_main_article     = models.BooleanField('Главная статья(всего 3 места)', default=False)
     author_name         = models.CharField('Логин автора', max_length=50, default="No name")
     category            = models.ForeignKey(Category, on_delete=models.SET_DEFAULT, db_column='category_no', default=0)
     likes               = models.IntegerField(default=0)

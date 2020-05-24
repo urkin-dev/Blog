@@ -36,25 +36,9 @@
         <div class="filters-wrapper">
                <div class="filters">
                    <div class="filters__inner">
-                       <span class="link-container"><a href="#" class="filters__link">Популярное</a></span>
-                       <span class="link-container"><a href="#" class="filters__link">Короновирус</a></span>
-                       <span class="link-container"><a href="#" class="filters__link">Искусство</a></span>
-                       <span class="link-container"><a href="#" class="filters__link">Красота</a></span>
-                       <span class="link-container"><a href="#" class="filters__link">Книги</a></span>
-                       <span class="link-container"><a href="#" class="filters__link">Комиксы</a></span>
-                       <span class="link-container"><a href="#" class="filters__link">Культура</a></span>
-                       <span class="link-container"><a href="#" class="filters__link">Еда</a></span>
-                       <span class="link-container"><a href="#" class="filters__link">Фильмы</a></span>
-                       <span class="link-container"><a href="#" class="filters__link">Игры</a></span>
-                       <span class="link-container"><a href="#" class="filters__link">Музыка</a></span>
-                       <span class="link-container"><a href="#" class="filters__link">Фотография</a></span>
-                       <span class="link-container"><a href="#" class="filters__link">Программирование</a></span>
-                       <span class="link-container"><a href="#" class="filters__link">Спорт</a></span>
-                       <span class="link-container"><a href="#" class="filters__link">Дизайн</a></span>
-                       <span class="link-container"><a href="#" class="filters__link">Экология</a></span>
-                       <span class="link-container"><a href="#" class="filters__link">Работа</a></span>
-                       <span class="link-container"><a href="#" class="filters__link">Мобильная разработка</a></span>
-                       <span class="link-container"><a href="#" class="filters__link">Математика</a></span>
+                        {% for c in categories %}
+                            <span class="link-container"><a href="#" class="filters__link">{{ c.name }}</a></span>
+                        {% endfor %}
                    </div>
                </div>
                <a class="prev disabled">

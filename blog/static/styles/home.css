@@ -10,6 +10,8 @@
     margin: 0;
     padding: 0;
     margin-bottom: 30px;
+    -moz-user-select: none;
+    -webkit-user-select: none;
 }
 
 .popular-wrapper {
@@ -35,12 +37,14 @@
     height: 250px;
     max-height: 250px;
     width: 100%;
+    object-fit: cover;
 }
 
 .popular-wrapper__most-popular .popular-article__img {
     width: 100%;
     height: 380px;
     max-height: 380px;
+    object-fit: cover;
 }
 
 .popular-article__title {
@@ -142,6 +146,7 @@
     min-width: 240px;
     height: 170px;
     min-height: 160px;
+    object-fit: cover;
 }
 
 .load-btn {
