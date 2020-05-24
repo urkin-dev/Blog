@@ -11,45 +11,63 @@
 {% block content %}
     <div class="wrapper">
         <div class="popular-wrapper">
-            <div class="popular-wrapper__most-popular">
-                <h1 class="main-title">Popular on our blog</h1>
-                <div class="popular-article">
-                    <img src="/media/img/default_images/default.jpg" alt="Article image" class="popular-article__img">
-                    <h2 class="popular-article__title">Most popular article</h2>
-                    <p class="popular-article__desc">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quo, quas nam magni consequatur aut ipsa.</p>
-                    <a href="#" class="popular-article__author-name">Author name</a>
-                    <span class="popular-article__date">25.05.2020</span>
+
+            {% if main_article %}
+
+                <div class="popular-wrapper__most-popular">
+                    <h1 class="main-title">Popular on our blog</h1>
+                    <div class="popular-article">
+                        <a href="#"><img src=" {{ main_article.article_image.url }} " alt="Article image" class="popular-article__img"></a>
+                        <a href="#" class="popular-article__title">{{ main_article.article_title }}</a>
+                        <a href="#"><p class="popular-article__desc">{{ main_article.article_description }}</p></a>
+                        <a href="#" class="popular-article__author-name">{{ main_article.author_name }}</a>
+                        <span class="popular-article__date">{{ main_article.pub_date }}</span>
+                    </div>
                 </div>
-            </div>
+
+            {% endif %}
+
             <div class="popular-wrapper__less-popular">
-                <div class="popular-article">
-                    <img src="/media/img/default_images/default.jpg" alt="Article image" class="popular-article__img">
-                    <h2 class="popular-article__title">Popular article</h2>
-                    <p class="popular-article__desc">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quo, quas nam magni consequatur aut ipsa.</p>
-                    <a href="#" class="popular-article__author-name">Author name</a>
-                    <span class="popular-article__date">25.05.2020</span>
-                </div>
-                <div class="popular-article">
-                    <img src="/media/img/default_images/default.jpg" alt="Article image" class="popular-article__img">
-                    <h2 class="popular-article__title">Popular article</h2>
-                    <p class="popular-article__desc">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quo, quas nam magni consequatur aut ipsa.</p>
-                    <a href="#" class="popular-article__author-name">Author name</a>
-                    <span class="popular-article__date">25.05.2020</span>
-                </div>
+                
+                {% if main_articles %}
+                    {% for a in main_articles %}
+
+                        <div class="popular-article">
+                            <a href="#"><img src="{{ a.article_image.url }}" alt="Article image" class="popular-article__img"></a>
+                            <a href="#" class="popular-article__title">{{a.article_title}}</a>
+                            <a href="#"><p class="popular-article__desc">{{a.article_description}}</p></a>
+                            <a href="#" class="popular-article__author-name">{{a.author_name}}</a>
+                            <span class="popular-article__date">{{a.pub_date}}</span>
+                        </div>      
+
+                    {% endfor %}
+                {% endif %}
+
             </div>
         </div>
         <div class="article-wrapper">
 
-            {% for i in '0123456789'|make_list %}
-                <div class="article">
-                    <div class="article__content">
-                        <a href="#" class="article__title">Some title</a>
-                        <p class="aritcle__desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis sequi aliquam reiciendis vero at quaerat.</p>
-                        <a href="#" class="article__author-name">No name</a>
-                        <p class="article__date">05.05.2020</p>
+            {% for a in articles %}
+
+                {% if not a.is_main_in_homepage %}
+
+                    <div class="article">
+                        <div class="article__content">
+                            <a href="#" class="article__title">{{ a.article_title }}</a>
+                            <a href="#"><p class="aritcle__desc">{{ a.article_description }}</p></a>
+                            <a href="#" class="article__author-name">{{ a.author_name }}</a>
+                            <a href="#" class="article__category">{{ a.category }}</a>
+                            <p class="article__date">{{ a.pub_date }}</p>
+                            <button class="like-btn">
+                                <?xml version="1.0" ?><svg height="24" version="1.1" width="24" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"><g transform="translate(0 -1028.4)"><path d="m7 1031.4c-1.5355 0-3.0784 0.5-4.25 1.7-2.3431 2.4-2.2788 6.1 0 8.5l9.25 9.8 9.25-9.8c2.279-2.4 2.343-6.1 0-8.5-2.343-2.3-6.157-2.3-8.5 0l-0.75 0.8-0.75-0.8c-1.172-1.2-2.7145-1.7-4.25-1.7z" fill="#c0392b"/></g></svg>
+                                {{ a.likes }}
+                            </button>
+                        </div>
+                        <a href="#"><img src="/media/img/default_images/default.jpg" alt="Article image" class="article__img"></a>
                     </div>
-                    <img src="/media/img/default_images/default.jpg" alt="Article image" class="article__img">
-                </div>
+
+                {% endif %}
+
             {% endfor %}
             <button class="load-btn">
                 Загрузить ещё

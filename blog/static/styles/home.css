@@ -2,14 +2,18 @@
     box-sizing: border-box;
 }
 
+a {
+    text-decoration: none;
+}
+
 /* **************************** POPULAR ARTICLES **************************** */
 
 .main-title {
-    font-size: 44px;
+    font-size: 35px;
     color: #2f2f2f;
     margin: 0;
     padding: 0;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     -moz-user-select: none;
     -webkit-user-select: none;
 }
@@ -52,10 +56,11 @@
     margin: 0;
     padding: 0;
     margin-top: 10px;
+    font-size: 22px;
 }
 
 .popular-wrapper__most-popular .popular-article__title {
-    font-size: 44px;
+    font-size: 34px;
 }
 
 .popular-article__desc {
@@ -69,7 +74,6 @@
 .popular-article__author-name {
     color: #2f2f2f;
     font-size: 14px;
-    text-decoration: none;
 }
 
 .popular-article__date {
@@ -105,12 +109,13 @@
 .article {
     display: flex;
     align-items: center;
-    height: 250px;
+    min-height: 250px;
     border-top: 1px solid rgb(182, 182, 182);
 }
 
 .article__content {
     margin-right: 30px;
+    width: 100%;
 }
 
 .article__title {
@@ -119,7 +124,6 @@
     padding: 0;
     margin: 0;
     font-weight: 500;
-    text-decoration: none;
 }
 
 .aritcle__desc {
@@ -127,13 +131,28 @@
     padding: 0;
     font-size: 18px;
     line-height: 24px;
-    color: #000;
+    color: rgb(44, 44, 44);
 }
 
 .article__author-name {
     font-size: 16px;
     color: rgb(106, 11, 255);
-    text-decoration: none;
+    transition: .3s color;
+}
+
+.article__author-name:hover {
+    color: rgb(45, 22, 82);
+}
+
+.article__category {
+    color: rgb(99, 99, 99);
+    text-decoration: underline;
+    margin-left: 10px;
+    transition: .3s color;
+}
+
+.article__category:hover {
+    color: rgb(10, 10, 10);
 }
 
 .article__date {
@@ -155,7 +174,7 @@
     bottom: 0;
     height: 21px;
     background-color: transparent;
-    color: #6740c2;
+    color: #8667ce;
     border: none;
     width: 160px;
     text-align: left;
@@ -167,11 +186,33 @@
     justify-content: space-around;
     align-items: center;
     transition: .3s opacity;
+    padding: 0;
 }
 
 .load-btn:hover {
     cursor: pointer;
     opacity: .8;
+}
+
+.like-btn {
+    background-color: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    color: #c0392b;
+    transition: .3s;
+    outline: none;
+}
+
+.like-btn:hover {
+    filter: brightness(.8);
+    cursor: pointer;
+}
+
+.like-btn svg {
+    margin-right: 7px;
 }
 
 /* **************************** FOOTER **************************** */
@@ -190,4 +231,84 @@ footer {
 .footer__info {
     color: rgb(94, 94, 94);
     font-size: 12px;
+}
+
+@media screen and (max-width: 1200px) {
+    .article-wrapper {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 835px) {
+    .wrapper {
+        width: 90%;
+    }
+    
+    .popular-wrapper {
+        display: flex;
+        margin-top: 30px;
+        font-family: Arial, Helvetica, sans-serif;
+        flex-direction: column;
+    }
+    
+    .popular-wrapper__most-popular {
+        width: 100%;
+    }
+    
+    .popular-wrapper__less-popular {
+        width: 100%;
+        padding: 0;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .popular-wrapper__less-popular .popular-article {
+        display: flex;
+        flex-direction: column;
+        width: 48%;
+    }
+
+    .popular-article__img {
+        height: 200px;
+        max-height: 200px;
+        width: 100%;
+        object-fit: cover;
+    }
+}
+
+@media screen and (max-width: 730px) {
+    .wrapper {
+        width: 95%;
+    }
+    
+    .article {
+        min-height: 200px;
+        height: 200px;
+        margin-top: 40px;
+        padding-top: 60px;
+    }
+
+    .article:not(:first-child) {
+        border: none;
+    }
+
+    .article__img {
+        min-width: 80px;
+        width: 80px;
+        min-height: 80px;
+        height: 80px;
+    }
+
+    .aritcle__desc {
+        font-size: 15px;
+    }
+
+    .article__content {
+        margin-right: 5px;
+    }
+
+    .article__date {
+        display: inline;
+    }
+
 }
