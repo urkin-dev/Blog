@@ -1,4 +1,3 @@
-<!-- TODO Get articles from server -->
 {% extends 'base.html' %}
 
 {% block links %}
@@ -54,7 +53,7 @@
                     <div class="article">
                         <div class="article__content">
                             <a href="#" class="article__title">{{ a.article_title }}</a>
-                            <a href="#"><p class="aritcle__desc">{{ a.article_description }}</p></a>
+                            <a href="#"><p class="article__desc">{{ a.article_description }}</p></a>
                             <a href="#" class="article__author-name">{{ a.author_name }}</a>
                             <a href="#" class="article__category">{{ a.category }}</a>
                             <p class="article__date">{{ a.pub_date }}</p>
@@ -63,7 +62,7 @@
                                 {{ a.likes }}
                             </button>
                         </div>
-                        <a href="#"><img src="/media/img/default_images/default.jpg" alt="Article image" class="article__img"></a>
+                        <a href="#"><img src="{{ a.article_image.url }}" alt="Article image" class="article__img"></a>
                     </div>
 
                 {% endif %}
@@ -80,4 +79,6 @@
     <footer>
         <p class="footer__info">© 2020 Yurkin Ivan | Dev version</p>
     </footer>
+    {% load static %}
+    <script src="{% static '/home.js' %}"></script>
 {% endblock content %}

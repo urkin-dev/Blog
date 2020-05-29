@@ -126,7 +126,7 @@ a {
     font-weight: 500;
 }
 
-.aritcle__desc {
+.article__desc {
     margin: 10px 0;
     padding: 0;
     font-size: 18px;
@@ -213,6 +213,16 @@ a {
 
 .like-btn svg {
     margin-right: 7px;
+}
+
+.load-message {
+    position: absolute;
+    z-index: 1001;
+    bottom: 0;
+    color: #c25d5d;
+    font-size: 14px;
+    left: 50%;
+    transform: translateX(-80px);
 }
 
 /* **************************** FOOTER **************************** */
@@ -309,6 +319,16 @@ footer {
 
     .article__date {
         display: inline;
+    }
+
+    .article-wrapper::after {
+        content: '';
+        position: absolute;
+        bottom: -40px;  
+        height: 400px;
+        width: 100%;
+        pointer-events: none;
+        z-index: 1000;
     }
 
 }
