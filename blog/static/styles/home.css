@@ -53,15 +53,14 @@ a {
 
 .popular-article__title {
     color: #2f2f2f;
-    margin: 0;
-    padding: 0;
-    margin-top: 10px;
     font-size: 22px;
+    display: block;
+    margin-top: 10px;
 }
 
-.popular-wrapper__most-popular .popular-article__title {
+/* .popular-wrapper__most-popular .popular-article__title {
     font-size: 34px;
-}
+} */
 
 .popular-article__desc {
     color: rgb(80, 80, 80);
@@ -144,14 +143,14 @@ a {
     color: rgb(45, 22, 82);
 }
 
-.article__category {
+.article-category {
     color: rgb(99, 99, 99);
     text-decoration: underline;
     margin-left: 10px;
     transition: .3s color;
 }
 
-.article__category:hover {
+.article-category:hover {
     color: rgb(10, 10, 10);
 }
 

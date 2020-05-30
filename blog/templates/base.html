@@ -13,7 +13,7 @@
 <body>
     <header>
         <nav class="header-nav">
-            <img src="" alt="logo" class="header-nav__logo">
+            <a href="/"><img src="" alt="logo" class="header-nav__logo"></a>
             <div class="header-nav__buttons">
                 <input id='search-toggle' type="checkbox" style="display: none;">
                 <label for="search-toggle" class="search-toggle">
@@ -37,7 +37,8 @@
                <div class="filters">
                    <div class="filters__inner">
                         {% for c in categories %}
-                            <span class="link-container"><a href="#" class="filters__link">{{ c.name }}</a></span>
+                            <!-- TODO: Make active link black -->
+                            <span class="link-container"><a href="/category?id={{c.category_no}}" class="filters__link">{{ c.name }}</a></span>                            
                         {% endfor %}
                    </div>
                </div>

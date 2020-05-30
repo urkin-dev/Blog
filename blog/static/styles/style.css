@@ -145,3 +145,7 @@ header {
     font-size: 14px;
     display: inline;
 }
+
+.active {
+    color: rgb(36, 36, 36);
+}

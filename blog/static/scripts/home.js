@@ -1,9 +1,13 @@
 let
     loadBtn        = document.querySelector('.load-btn'),
     container      = document.querySelector('.article-wrapper'), 
+    likeBtns       = document.querySelectorAll('.like-btn'),
     articlesLoaded = 10;
 
-loadBtn.addEventListener('click', getArticles);
+loadBtn.addEventListener('click', getArticles); // Get articles from server
+likeBtns.forEach(btn => {
+    btn.addEventListener('click', sendLike);
+});
 
 /**
  * Get ten articles from DB and increases count of articles
@@ -69,7 +73,7 @@ function createArticles(articles) {
         article_title.classList.add('article__title'),
         article_desc.classList.add('article__desc'),
         article_author.classList.add('article__author-name'),
-        article_category.classList.add('article__category'),
+        article_category.classList.add('article-category'),
         article_date.classList.add('article__date'),
         article_button.classList.add('like-btn'),
         article_img.classList.add('article__img');
@@ -91,12 +95,13 @@ function createArticles(articles) {
         article_desc.textContent = desc;
         article_author.href = '#HereWillBeLinkToAuthor';
         article_author.textContent = author;
-        article_category.href = '#HereWIllBeLinkToCategoryNum' + category_no;
+        article_category.href = 'category/?id=' + category_no;
         article_category.textContent = category;
         article_date = created;
 
         article_button.innerHTML = `<?xml version="1.0" ?><svg height="24" version="1.1" width="24" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"><g transform="translate(0 -1028.4)"><path d="m7 1031.4c-1.5355 0-3.0784 0.5-4.25 1.7-2.3431 2.4-2.2788 6.1 0 8.5l9.25 9.8 9.25-9.8c2.279-2.4 2.343-6.1 0-8.5-2.343-2.3-6.157-2.3-8.5 0l-0.75 0.8-0.75-0.8c-1.172-1.2-2.7145-1.7-4.25-1.7z" fill="#c0392b"/></g></svg>
-        ${likes}`;
+        <span>${likes}</span>`;
+        article_button.addEventListener('click', sendLike);
 
         container.insertBefore(article, loadBtn);
 
@@ -111,4 +116,25 @@ function showMessage(message) {
 
     loadBtn.remove();
     container.appendChild(el);
+}
+
+function sendLike(e) {
+    fetch(`/loadArticles?count=${articlesLoaded}`, {method: "GET"})
+    .then(res => res.json())
+    .then(articles => {
+        if (articles.length == 0) {
+            showMessage('Статей больше нет');
+        } else {
+            articlesLoaded += articles.length;
+            createArticles(articles);
+            loadBtn.innerHTML = `Загрузить ещё
+            <svg width="21" height="21" viewBox="0 0 21 21">
+                <path d="M4 7.33L10.03 14l.5.55.5-.55 5.96-6.6-.98-.9-5.98 6.6h1L4.98 6.45z" fill-rule="evenodd"></path>
+            </svg>`
+        }
+    })
+    .catch((e) => {
+        console.log(e);
+        showMessage('Произошла ошибка');
+    });
 }

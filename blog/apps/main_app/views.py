@@ -1,4 +1,7 @@
-# TODO Create new pages for other categories
+# TODO: Make like button
+# TODO: Make article page
+# TODO: Make commentaries
+# TODO: Make authorization
 import json
 
 from django.shortcuts import render
@@ -14,8 +17,17 @@ def index(req):
     popular_articles = Article.objects.order_by('-likes')[:10]
     return render(req, 'pages/index.html', { 'categories': categories, 'main_article': main_articles[0], 'articles': popular_articles, 'main_articles': main_articles_array })
 
-def loadArticles(request):
-    count = request.GET.get('count', 10)
+def category(req):
+    categories   = Category.objects.all()
+    id           = req.GET.get('id')
+    current_cat  = Category.objects.get(category_no = id)
+    articles     = Article.objects.filter(category_id = id).order_by('-likes')[:10]
+    main_article = Article.objects.get(category_id = id, is_main_in_category = True)
+    
+    return render(req, 'pages/category.html', { 'categories': categories, 'articles': articles, 'main_article': main_article, 'current_cat': current_cat })
+
+def loadArticles(req):
+    count = req.GET.get('count', 10)
     count = int(count)
 
     popular_articles = Article.objects.filter(is_main_in_homepage=False).order_by('-likes')[count:count+10]

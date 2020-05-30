@@ -22,7 +22,7 @@ class Article(models.Model):
     is_main_in_category = models.BooleanField('Главная статья в своей категории(можно поставить только 1)', default=False)
     is_main_in_homepage = models.BooleanField('Главная статья на домашней страницу(всего 3)', default=False)
     author_name         = models.CharField('Логин автора', max_length=50, default="No name")
-    category            = models.ForeignKey(Category, on_delete=models.SET_DEFAULT, db_column='category_no', default=0)
+    category            = models.ForeignKey(Category, on_delete=models.SET_DEFAULT, db_column='category_no', default=14)
     likes               = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):
@@ -38,7 +38,7 @@ class Article(models.Model):
         if self.is_main_in_homepage:
             try:
                 main_count = len(Article.objects.filter(is_main_in_homepage=True))
-                if main_count == 3:
+                if main_count >= 3:
                     self.is_main_in_homepage = False
             except Article.DoesNotExist:
                 pass
