@@ -1,0 +1,251 @@
+a {
+    text-decoration: none;
+}
+
+.updown {
+    left: 40px;
+}
+
+.main-article, .article-wrapper, .title {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.title {
+    font-size: 55px;
+    color: #2f2f2f;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 20px;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    margin-top: 20px;
+}
+
+.main_article {
+    display: flex;
+    margin-top: 20px;
+}
+
+.main_article__image-wrap {
+    width: 70%;
+    height: 450px;
+}
+
+.main_article__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.main_article__content {
+    width: 30%;
+    margin-left: 30px;
+}
+
+.main_article__title {
+    color: #2f2f2f;
+    font-size: 32px;
+    display: block;
+    font-weight: bold;
+}
+
+.main_article__desc {
+    color: rgb(80, 80, 80);
+    font-size: 16px;
+    padding: 0;
+    margin: 0;
+    display: block;
+    margin: 12px 0 9px 0;
+}
+
+.main_article__author-name {
+    color: #2f2f2f;
+    font-size: 14px;
+    transition: .3s color;
+}
+
+.main_article__author-name:hover {
+    color: #000;
+}
+
+.main_article__date {
+    color: #2f2f2f;
+    font-size: 12px;
+    margin-left: 5px;
+}
+
+.article-wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 20px;
+    grid-gap: 30px;
+    position: relative;
+    padding-bottom: 50px;
+}
+
+.article {
+    width: 100%;
+}
+
+.article:not(:nth-child(3n)) {
+    margin-right: 10px;
+}
+
+.article__img {
+    width:  100%;
+    border: 1px solid rgb(177, 177, 177);
+    height: 180px;
+    max-height: 180px;
+    object-fit: cover;
+}
+
+.article__title {
+    font-size: 24px;
+    color: rgb(53, 53, 53);
+    font-weight: bold;
+    margin-top: 10px;
+    display: block;
+}
+
+.article__desc {
+    font-size: 16px;
+    line-height: 24px;
+    margin: 0;
+    margin: 10px 0;
+    color: rgb(44, 44, 44);
+}
+
+.article__author-name {
+    font-size: 16px;
+    color: rgb(106, 11, 255);
+    transition: .3s color;
+}
+
+.article__author-name:hover {
+    color: rgb(45, 22, 82);
+}
+
+.article__date {
+    font-size: 14px;
+    color: rgb(92, 92, 92);
+    margin: 0;
+    margin-top: 5px;
+}
+
+.like-btn {
+    background-color: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    color: #c0392b;
+    transition: .3s;
+    outline: none;
+    margin-top: 10px;
+}
+
+.like-btn:hover {
+    filter: brightness(.8);
+    cursor: pointer;
+}
+
+.like-btn svg {
+    margin-right: 7px;
+}
+
+.load-message {
+    position: absolute;
+    z-index: 1001;
+    bottom: 0;
+    color: #c25d5d;
+    font-size: 14px;
+    left: 50%;
+    transform: translateX(-80px);
+}
+
+.load-btn {
+    position: absolute;
+    z-index: 1001;
+    bottom: 0;
+    height: 21px;
+    background-color: transparent;
+    color: #420dbd;
+    border: none;
+    width: 160px;
+    text-align: left;
+    outline: none;
+    font-size: 14px;
+    left: 50%;
+    transform: translateX(-80px);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    transition: .3s opacity;
+    padding: 0;
+}
+
+.load-btn:hover {
+    cursor: pointer;
+    opacity: .8;
+}
+
+footer {
+    width: 100%;
+    height: 60px;
+    max-height: 80px;
+    border-top: 1px solid rgb(182, 182, 182);
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer__info {
+    color: rgb(94, 94, 94);
+    font-size: 12px;
+}
+
+@media screen and (max-width: 1080px) {
+    .wrapper {
+        width: 90%;
+    }
+
+    .updown {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 840px) {
+    .article-wrapper {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .main_article {
+        flex-direction: column;
+    }
+
+    .main_article__image-wrap {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .main_article__content {
+        margin-left: 0;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 580px) {
+    .article-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .main_article__image-wrap {
+        height: 350px;
+    }
+
+    .title {
+        font-size: 30px;
+    }
+}

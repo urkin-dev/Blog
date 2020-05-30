@@ -21,16 +21,27 @@ def category(req):
     categories   = Category.objects.all()
     id           = req.GET.get('id')
     current_cat  = Category.objects.get(category_no = id)
-    articles     = Article.objects.filter(category_id = id).order_by('-likes')[:10]
-    main_article = Article.objects.get(category_id = id, is_main_in_category = True)
+    articles     = Article.objects.filter(category_id = id).order_by('-likes')[:9]
+    
+    try:
+        main_article = Article.objects.get(category_id = id, is_main_in_category = True)    
+    except Article.DoesNotExist:
+        main_article = None
     
     return render(req, 'pages/category.html', { 'categories': categories, 'articles': articles, 'main_article': main_article, 'current_cat': current_cat })
 
 def loadArticles(req):
     count = req.GET.get('count', 10)
+    id    = req.GET.get('id')
     count = int(count)
 
-    popular_articles = Article.objects.filter(is_main_in_homepage=False).order_by('-likes')[count:count+10]
+    if id is not None:
+        id = int(id)
+        popular_articles = Article.objects.filter(is_main_in_category=False, category_id = id).order_by('-likes')[count:count+9]
+    else:
+        popular_articles = Article.objects.filter(is_main_in_homepage=False).order_by('-likes')[count:count+10]
+
+
 
     response_data = []
 

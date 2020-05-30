@@ -1,7 +1,42 @@
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     padding: 0;
     margin: 0;
     font-family: sans-serif;
+}
+
+.error {
+    color: rgb(158, 50, 50);
+}
+
+.updown {
+    position: fixed;
+    top: 80%;
+    left: 80px;
+    width: 33px;
+    height: 33px;
+    border: 1px solid rgb(179, 175, 175);
+    border-radius: 50%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    transform: rotate(90deg);
+    translate: .3s opacity;
+    background-color: transparent;
+}
+
+.updown:hover {
+    opacity: .8;
+    cursor: pointer;
+}
+
+.up {
+    display: flex;
 }
 
 .wrapper {
@@ -149,3 +184,4 @@ header {
 .active {
     color: rgb(36, 36, 36);
 }
+

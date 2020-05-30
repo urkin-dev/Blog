@@ -10,56 +10,67 @@
 {% block content %}
 	<div class="wrapper">
 		<h1 class="title">{{current_cat}}</h1>
-		<div class="main_article">
-			<a href="#" class="main_article__image-wrap">
-				<img src="{{ main_article.article_image.url }}" alt="article image" class="main_article__image">
-			</a>
-			<a href="" class="main_article__title">{{main_article.article_title}}</a>
-			<a href="" class="main_article__desc">{{main_article.article_desc}}</a>
-			<a href="#" class="main-article__author-name">{{ main_article.author_name }}</a>
-			<span class="main-article__date">{{ main_article.pub_date }}</span>
-			<a href="/category?id={{main_article.category_id}}" class="article-category">{{ main_article.category }}</a>
-		</div>
+		{% if main_article %}
+			<div class="main_article">
+				<a href="#" class="main_article__image-wrap">
+					<img src="{{ main_article.article_image.url }}" alt="article image" class="main_article__image">
+				</a>
+				<div class="main_article__content">
+					<a href="" class="main_article__title">{{main_article.article_title}}</a>
+					<a href="" class="main_article__desc">{{main_article.article_description}}</a>
+					<a href="#" class="main_article__author-name">{{ main_article.author_name }}</a>
+					<span class="main_article__date">{{ main_article.pub_date }}</span>
+				</div>
+			</div>
+		{% endif %}
 		<div class="article-wrapper">
 
-			{% for a in articles %}
+			{% if articles %}
+				{% for a in articles %}
 
-				{% if not a.is_main_in_category %}
+					{% if not a.is_main_in_category %}
 
-					<div class="article">
-						<a href="#"><img src="{{ a.article_image.url }}" alt="Article image" class="article__img"></a>
-						<div class="article__content">
-							<a href="#" class="article__title">{{ a.article_title }}</a>
-							<a href="#">
-								<p class="article__desc">{{ a.article_description }}</p>
-							</a>
-							<a href="#" class="article__author-name">{{ a.author_name }}</a>
-							<a href="/category?id={{a.category_id}}" class="article-category">{{ a.category }}</a>
-							<p class="article__date">{{ a.pub_date }}</p>
-							<button class="like-btn">
-								<?xml version="1.0" ?><svg height="24" version="1.1" width="24" xmlns="http://www.w3.org/2000/svg"
-									xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/"
-									xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-									<g transform="translate(0 -1028.4)">
-										<path
-											d="m7 1031.4c-1.5355 0-3.0784 0.5-4.25 1.7-2.3431 2.4-2.2788 6.1 0 8.5l9.25 9.8 9.25-9.8c2.279-2.4 2.343-6.1 0-8.5-2.343-2.3-6.157-2.3-8.5 0l-0.75 0.8-0.75-0.8c-1.172-1.2-2.7145-1.7-4.25-1.7z"
-											fill="#c0392b" />
-									</g>
-								</svg>
-								<span>{{ a.likes }}</span>
-							</button>
+						<div class="article">
+							<a href="#"><img src="{{ a.article_image.url }}" alt="Article image" class="article__img"></a>
+							<div class="article__content">
+								<a href="#" class="article__title">{{ a.article_title }}</a>
+								<a href="#">
+									<p class="article__desc">{{ a.article_description }}</p>
+								</a>
+								<a href="#" class="article__author-name">{{ a.author_name }}</a>
+								<p class="article__date">{{ a.pub_date }}</p>
+								<button class="like-btn">
+									<?xml version="1.0" ?><svg height="24" version="1.1" width="24" xmlns="http://www.w3.org/2000/svg"
+										xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/"
+										xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+										<g transform="translate(0 -1028.4)">
+											<path
+												d="m7 1031.4c-1.5355 0-3.0784 0.5-4.25 1.7-2.3431 2.4-2.2788 6.1 0 8.5l9.25 9.8 9.25-9.8c2.279-2.4 2.343-6.1 0-8.5-2.343-2.3-6.157-2.3-8.5 0l-0.75 0.8-0.75-0.8c-1.172-1.2-2.7145-1.7-4.25-1.7z"
+												fill="#c0392b" />
+										</g>
+									</svg>
+									<span>{{ a.likes }}</span>
+								</button>
+							</div>
 						</div>
-					</div>
 
-				{% endif %}
+					{% endif %}
 
-			{% endfor %}
-			<button class="load-btn">
-				Загрузить ещё
-				<svg width="21" height="21" viewBox="0 0 21 21">
-					<path d="M4 7.33L10.03 14l.5.55.5-.55 5.96-6.6-.98-.9-5.98 6.6h1L4.98 6.45z" fill-rule="evenodd"></path>
-				</svg>
-			</button>
+				{% endfor %}
+				<button class="load-btn">
+					Загрузить ещё
+					<svg width="21" height="21" viewBox="0 0 21 21">
+						<path d="M4 7.33L10.03 14l.5.55.5-.55 5.96-6.6-.98-.9-5.98 6.6h1L4.98 6.45z" fill-rule="evenodd"></path>
+					</svg>
+				</button>
+			{% else %}
+				<p class="error">Статей в этой категории не найдено</p>
+			{% endif %}
 		</div>
 	</div>
+	<footer>
+        <p class="footer__info">© 2020 Yurkin Ivan | Dev version</p>
+    </footer>
+	{% load static %}
+    <script src="{% static '/category.js' %}"></script>
 {% endblock content %}
