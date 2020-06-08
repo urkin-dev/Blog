@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block links %}
+    {% load static %}
+	<link rel="stylesheet" href="{% static '/articlePage.css' %}">
+{% endblock %}
+
+{% block title %}{{ article.article_title }}{% endblock %}
+
+{% block content %}
+
+    <div class="wrapper">
+        <div class="article">
+            <h1 class="article__title">{{article.article_title}}</h1>
+            <p class="article__desc">{{article.article_description}}</p>
+            <div class="about_author">
+                <a href="" class="avatar">
+                    <img src="#Users avatar" alt="">
+                </a>
+                <div class="author-info">
+                    <a href="" class="author-info__name">Ivan Yurkin</a>
+                    <span class="date">{{article.pub_date}}</span>
+                </div>
+            </div>
+            <img src="{{article.article_image.url}}" alt="Article image" class="article_img">
+            <div class="article__text">
+                {{article.article_text |safe}}
+            </div>
+            <button class="like-btn">
+                <svg height="24" version="1.1" width="24">
+                    <g transform="translate(0 -1028.4)">
+                        <path
+                            d="m7 1031.4c-1.5355 0-3.0784 0.5-4.25 1.7-2.3431 2.4-2.2788 6.1 0 8.5l9.25 9.8 9.25-9.8c2.279-2.4 2.343-6.1 0-8.5-2.343-2.3-6.157-2.3-8.5 0l-0.75 0.8-0.75-0.8c-1.172-1.2-2.7145-1.7-4.25-1.7z"
+                            fill="#c0392b" />
+                    </g>
+                </svg>
+                <span>{{ article.likes }}</span>
+            </button>
+        </div>
+    </div>
+    <div class="comments-wrapper">
+        <div class="wrapper">
+            <div class="comments">
+                <h3 class="comments__title">Комментарии</h3>
+
+                <form class="comments__form">
+                    
+                    <div class="avatar">
+                        <img src="#Users avatar" alt="">
+                    </div>
+
+                    <textarea class="comments__form-textarea" name="text" placeholder="Напишите комментарий" maxlength = "200"></textarea>
+                    <button class="comments__form-btn" type="submit">Опубликовать</button>
+                
+                </form>
+        
+                {% if comments %}
+                    
+                    {% for comment in comments %}
+                        <div class="comment">
+                            <div class="about_author">
+                                <a href="" class="avatar">
+                                    <img src="#Users avatar" alt="">
+                                </a>
+                                <div class="author-info">
+                                    <a href="" class="author-info__name">{{comment.author_name}}</a>
+                                    <span class="date">{{comment.pub_date}}</span>
+                                </div>
+                            </div>
+                            <p class="comment-text">{{ comment.comment_text }}</p>
+                        </div>
+                    {% endfor %}
+            
+                {% else %}
+                    <p>Комментарии не найдены. Станьте первым</p>
+                {% endif %}
+
+                <button class="load-btn">
+                    Загрузить ещё
+                    <svg width="21" height="21" viewBox="0 0 21 21">
+                        <path d="M4 7.33L10.03 14l.5.55.5-.55 5.96-6.6-.98-.9-5.98 6.6h1L4.98 6.45z" fill-rule="evenodd"></path>
+                    </svg>
+                </button>
+
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p class="footer__info">© 2020 Yurkin Ivan | Dev version</p>
+    </footer>
+
+    {% load static %}
+    <script src="{% static '/article.js' %}"></script>
+
+{% endblock %}

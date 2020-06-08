@@ -1,13 +1,15 @@
 # TODO: Make like button
-# TODO: Make article page
-# TODO: Make commentaries
 # TODO: Make authorization
+# TODO: Customizate admin panel
+
 import json
 
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from django.http import HttpResponse, Http404
 
-from .models import Category, Article
+from django.utils import timezone
+
+from .models import Category, Article, Comment
 
 def index(req):
     categories          = Category.objects.all()
@@ -28,7 +30,7 @@ def category(req):
     except Article.DoesNotExist:
         main_article = None
     
-    return render(req, 'pages/category.html', { 'categories': categories, 'articles': articles, 'main_article': main_article, 'current_cat': current_cat })
+    return render(req, 'pages/category.html', { 'categories': categories, 'articles': articles, 'main_article': main_article, 'current_cat': current_cat, 'category_id': int(id) })
 
 def loadArticles(req):
     count = req.GET.get('count', 10)
@@ -40,8 +42,6 @@ def loadArticles(req):
         popular_articles = Article.objects.filter(is_main_in_category=False, category_id = id).order_by('-likes')[count:count+9]
     else:
         popular_articles = Article.objects.filter(is_main_in_homepage=False).order_by('-likes')[count:count+10]
-
-
 
     response_data = []
 
@@ -62,3 +62,65 @@ def loadArticles(req):
     context = json.dumps(response_data)
 
     return HttpResponse(context, content_type="application/json")
+
+def article(req):
+    id         = req.GET.get('id')
+    categories = Category.objects.all()
+   
+    try:
+        article = Article.objects.get(id = id)
+    except:
+        raise Http404('Статья не найдена')
+
+    latest_comments_list = article.comment_set.order_by('-id')[:10]
+    
+    article.article_text = parseArticleText(article.article_text)
+    return render(req, 'pages/article.html', { 'article': article, 'categories': categories, 'category_id': article.category_id, 'comments': latest_comments_list })
+
+def leave_comment(req, article_id):
+    try:
+        a = Article.objects.get(id = article_id)
+    except:
+        raise Http404("Статья не найдена")
+
+    data = json.loads(req.body)
+    
+    c = a.comment_set.create(author_name = 'No name', comment_text = data['text'], pub_date = timezone.now())
+
+    comment                = {}
+    comment["id"]          = c.id
+    comment["author_name"] = c.author_name
+    comment["pub_date"]    = c.pub_date.strftime("%d %B %Y %H:%M")
+    comment["text"]        = c.comment_text
+
+    context = json.dumps(comment)
+
+    return HttpResponse(context, content_type="application/json")
+
+def loadComments(req):
+
+    count = req.GET.get('count', 10)
+    count = int(count)
+
+    latest_comments = Comment.objects.order_by('-id')[count:count+10]
+
+    response_data = []
+
+    for c in latest_comments:
+        comment                = {}
+        comment["id"]          = c.id
+        comment["author_name"] = c.author_name
+        comment["pub_date"]    = c.pub_date.strftime("%d %B %Y %H:%M")
+        comment["text"]        = c.comment_text
+
+        response_data.append(comment)
+
+    context = json.dumps(response_data)
+
+    return HttpResponse(context, content_type="application/json")
+
+def parseArticleText(text):
+
+    lines = text.splitlines()
+
+    return "\n".join('<p>'+i+'</p>' for i in lines)

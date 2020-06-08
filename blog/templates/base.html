@@ -45,7 +45,7 @@
                <div class="filters">
                    <div class="filters__inner">
                         {% for c in categories %}
-                            {% if c.category_no == id %}
+                            {% if c.category_no == category_id %}
                                 <span class="link-container"><a href="/category?id={{c.category_no}}" class="filters__link active">{{ c.name }}</a></span>                            
                             {% else %}
                                 <span class="link-container"><a href="/category?id={{c.category_no}}" class="filters__link">{{ c.name }}</a></span>                            
