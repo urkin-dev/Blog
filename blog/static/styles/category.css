@@ -132,28 +132,6 @@ a {
     margin-top: 5px;
 }
 
-.like-btn {
-    background-color: transparent;
-    border: none;
-    display: flex;
-    align-items: center;
-    padding: 0;
-    margin: 0;
-    color: #c0392b;
-    transition: .3s;
-    outline: none;
-    margin-top: 10px;
-}
-
-.like-btn:hover {
-    filter: brightness(.8);
-    cursor: pointer;
-}
-
-.like-btn svg {
-    margin-right: 7px;
-}
-
 .load-message {
     position: absolute;
     z-index: 1001;

@@ -89,7 +89,7 @@ function createArticles(articles) {
         article_content.appendChild(article_date);
         article_content.appendChild(article_button);
 
-        article_img_a.href = article_desc_a.href = article_title.href = '#HereWillBeLinkToArticleNum' + articles[i].id;
+        article_img_a.href = article_desc_a.href = article_title.href = '/article?id=' + articles[i].id;
         article_img.src = url;
         article_title.textContent = title;
         article_desc.textContent = desc;
