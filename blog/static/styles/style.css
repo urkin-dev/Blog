@@ -52,6 +52,7 @@ header {
     justify-content: center;
     align-items: center;
     box-shadow: rgba(0, 0, 0, 0.05) 0px 4px 12px 0px;
+    position: relative;
 }
 
 .header-nav {
@@ -106,9 +107,61 @@ header {
     cursor: pointer;
 }
 
+#show-menu {
+    display: none;
+}
+
 .signin-link {
     text-decoration: none;
     color: #000;
+}
+
+/* TODO: Make it relative to user profile icon */
+.user-menu {
+    display: none;
+    position: absolute;
+    flex-direction: column;
+    width: 150px;
+    background-color: #fff;
+    top: 65px;
+    min-height: 150px;
+    align-items: center;
+    justify-content: space-around;
+    z-index: 2000;
+    padding: 15px;
+    right: 5.75%;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 4px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.user-menu:before, .user-menu:after {
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: 100%;
+    width: 0;
+    height: 0;
+  }
+  .user-menu:before {
+    left: calc(50% - 1px);
+    border: 11px solid transparent;
+    border-bottom-color: #ddd;
+    transform: translateX(-8px);
+  }
+  .user-menu:after {
+    left: 50%;
+    border: 10px solid transparent;
+    border-bottom-color: #fff;
+    transform: translateX(-8px);
+  }
+
+.user-menu a {
+    color: rgb(29, 29, 29);
+    font-size: 14px;
+}
+
+#show-menu:checked ~ .user-menu {
+    display: flex;
 }
 
 /* **************************** FILTERS **************************** */

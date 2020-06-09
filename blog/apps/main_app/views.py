@@ -11,6 +11,10 @@ from django.utils import timezone
 
 from .models import Category, Article, Comment
 
+from .forms import CreateUserForm
+from django.contrib.auth import authenticate, login as auth_login, logout
+from django.contrib import messages
+
 def index(req):
     categories          = Category.objects.all()
     main_articles       = Article.objects.filter(is_main_in_homepage=True).order_by('likes') # Get three main articles and order by likes
@@ -77,25 +81,42 @@ def article(req):
     article.article_text = parseArticleText(article.article_text)
     return render(req, 'pages/article.html', { 'article': article, 'categories': categories, 'category_id': article.category_id, 'comments': latest_comments_list })
 
+def profile(req):
+
+    user = req.user
+
+    last_articles = Article.objects.filter(author = user)[3]
+    articleCount  = len(Article.objects.filter(author = user))
+
+    return render(req, 'user/profile.html', {'articleCount': articleCount, 'lastArticles': last_articles, 'user': user})
+
+
 def leave_comment(req, article_id):
-    try:
-        a = Article.objects.get(id = article_id)
-    except:
-        raise Http404("Статья не найдена")
 
-    data = json.loads(req.body)
-    
-    c = a.comment_set.create(author_name = 'No name', comment_text = data['text'], pub_date = timezone.now())
+    if req.user.is_authenticated:
 
-    comment                = {}
-    comment["id"]          = c.id
-    comment["author_name"] = c.author_name
-    comment["pub_date"]    = c.pub_date.strftime("%d %B %Y %H:%M")
-    comment["text"]        = c.comment_text
+        try:
+            a = Article.objects.get(id = article_id)
+        except:
+            raise Http404("Статья не найдена")
 
-    context = json.dumps(comment)
+        data = json.loads(req.body)
+        
+        c = a.comment_set.create(author_name = req.user.username, comment_text = data['text'], pub_date = timezone.now())
 
-    return HttpResponse(context, content_type="application/json")
+        comment                = {}
+        comment["id"]          = c.id
+        comment["author_name"] = c.author_name
+        comment["pub_date"]    = c.pub_date.strftime("%d %B %Y %H:%M")
+        comment["text"]        = c.comment_text
+
+        context = json.dumps(comment)
+
+        return HttpResponse(context, content_type="application/json")
+
+    else:
+        jsonr = json.dumps({ 'authenticated': False })
+        return HttpResponse(jsonr, content_type="application/json")
 
 def loadComments(req):
 
@@ -118,6 +139,50 @@ def loadComments(req):
     context = json.dumps(response_data)
 
     return HttpResponse(context, content_type="application/json")
+
+def login(req):
+
+    if req.user.is_authenticated:
+        return redirect('/')
+    else:
+        context = {}
+
+        if req.method == 'POST':
+            username = req.POST["username"]
+            password = req.POST["password"]
+
+            user = authenticate(req, username=username, password=password) # Get user from db
+
+            if user is not None:
+                auth_login(req, user)
+                return redirect('/')
+            else:
+                messages.info(req, 'Username or password is incorrect')
+                return render(req, 'pages/login.html', context)
+
+        return render(req, 'pages/login.html', context)
+
+def logoutUser(req):
+    logout(req)
+    return redirect('/')
+
+def register(req):
+    if req.user.is_authenticated:
+        return redirect('/')
+    else:
+        form = CreateUserForm()
+
+        if req.method == 'POST':
+            form = CreateUserForm(req.POST) # Create new form to check validation
+            if form.is_valid():
+                form.save() # Create new User
+                user = form.cleaned_data.get('username')
+                messages.success(req, 'Аккаунт был создан ' + user)
+
+                return redirect('/')
+
+        context = {'form': form}
+        return render(req, 'pages/register.html', context)
 
 def parseArticleText(text):
 

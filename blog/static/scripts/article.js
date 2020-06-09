@@ -26,7 +26,11 @@ commentForm.onsubmit = function() {
     'Content-Type': 'application/json', 'X-CSRFToken': csrftoken}})
         .then(res => res.json())
         .then(comment => {
-            updateComments(comment);
+            if (comment.authenticated == false) {
+                window.location.href = '/login/';
+            } else {
+                updateComments(comment);
+            }
         })
         .catch(err => console.log(err));
     
@@ -120,6 +124,12 @@ function createComments(comments) {
  */
 function updateComments(newComment) {
     
+    let message = document.querySelector('.no-comments');
+
+    if (message) {
+        message.style.display = 'none';
+    }
+
     let
         id           = newComment.id,
         name         = newComment.author_name,

@@ -23,11 +23,21 @@
                 </label>
                 <input type="text" name="search" class="search-input" placeholder="Search">
 
-                <a href="/admin" class="signin-link">You're admin</a>
-
-                <!-- <a href="#" class="show-menu">
-                    <img src="/media/img/default_images/defaultUser.png" alt="Avatar" width="35px" height="35px">
-                </a> -->
+                {% if request.user.is_anonymous %}
+                    <a class="signin-link" href="{% url 'main_app:login' %}">Войти</a>
+                {% else %}
+                    <input type="checkbox" id="show-menu">
+                    <label class="show-menu" for="show-menu">
+                        <img src="/media/img/default_images/defaultUser.png" alt="Avatar" width="35px" height="35px">
+                    </label>
+                    <div class="user-menu">
+                        <a href="/profile?id={{request.user.id}}" class="user-menu__account">Профиль</a>
+                        {% if request.user.is_staff %}
+                            <a href="{% url 'admin:index' %}" class="admin">Админ панель</a>
+                        {% endif %}
+                        <a href="{% url 'main_app:logoutUser' %}" class="logout">Выйти</a>
+                    </div>
+                {% endif %}
 
             </div>
         </nav>

@@ -1,0 +1,15 @@
+{% extends 'auth.html' %}
+
+{% block links %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static '/form.css' %}">
+{% endblock %}
+
+{% block title %}Профиль{% endblock %}
+
+{% block content %}
+    <p>Имя пользователя: {{user}}</p>
+    <p>Статей написано: {{articleCount}}</p>
+    <p>Последние статьи: {{lastArticles.article_title}}</p>
+    <p>Скоро вы сможете писать статьи</p>
+{% endblock %}

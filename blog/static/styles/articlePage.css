@@ -1,5 +1,5 @@
 .article {
-    width: 70%;
+    max-width: 70%;
     margin: 0 auto;
     font-family: Arial, Helvetica, sans-serif;
     padding-top: 50px;
@@ -46,6 +46,10 @@
     font-size: 21px;
     margin-top: 50px;
     width: 100%;
+}
+
+.article__text p {
+    word-break: break-all
 }
 
 .article__info {

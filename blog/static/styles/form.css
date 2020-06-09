@@ -1,0 +1,80 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+.form-container {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.form-container .title {
+    margin: 0;
+    padding: 0;
+    margin-top: 100px;
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+}
+
+.register-form  label {
+    margin-top: 10px;
+}
+
+.register-form input:not(.register-btn) {
+    border: 1px solid rgb(192, 192, 192);
+    border-radius: 5px;
+    max-width: 100%;
+    height: 30px;
+    outline: none;
+    margin-top: 5px;
+    padding: 10px;
+}
+
+.register-form .register-btn {
+    margin-top: 15px;
+    width: 100%;
+    height: 30px;
+    border: none;
+    outline: none;
+    background-color: rgb(216, 109, 22);
+    border-radius: 5px;
+    color: #fff;
+    transition: .3s;
+    font-size: 14px;
+}
+
+.register-btn:hover {
+    cursor: pointer;
+    background-color: rgb(102, 102, 102);
+}
+
+header {
+    width: 100%;
+    background-color: rgb(168, 168, 168);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.userName {
+    margin-right: 10px;
+}
+
+.errorlist {
+    list-style: none;
+    color: rgb(165, 80, 80);
+    margin: 0;
+    padding: 0;
+    margin-top: 10px;
+}

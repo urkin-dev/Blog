@@ -1,0 +1,38 @@
+{% extends 'auth.html' %}
+
+{% block links %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static '/form.css' %}">
+{% endblock %}
+
+{% block title %}Регистрация{% endblock %}
+
+{% block content %}
+    <div class="form-container">
+        <h1 class="title">Регистрация</h1>
+        <form action="" method="POST" class="register-form">
+
+            {% csrf_token %}
+
+            {% for error, text in form.errors.items %}
+                {{text}}
+            {% endfor %}
+
+            <label for="id_username">{{form.username.label}}</label>
+            {{form.username}}
+            <label for="id_email">{{form.email.label}}</label>
+            {{form.email}}
+            <label for="id_password1">{{form.password1.label}}</label>
+            {{form.password1}}
+            <label for="id_password2">{{form.password2.label}}</label>
+            {{form.password2}}
+
+            <p>
+                Уже есть аккаунт?
+                <a href="{% url 'main_app:login' %}">Войти</a>
+            </p>
+
+            <input type="submit" name="Create User" class="register-btn">
+        </form>
+    </div>
+{% endblock %}
