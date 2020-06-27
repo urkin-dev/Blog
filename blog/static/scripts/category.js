@@ -54,8 +54,7 @@ function createArticles(articles) {
             desc  	    = articles[i].desc,
             created     = articles[i].date,
             author      = articles[i].author_name,
-            category    = articles[i].category,
-            category_no = articles[i].category_no,
+            author_id   = articles[i].author_id,
             likes       = articles[i].likes;
 
         let
@@ -93,7 +92,7 @@ function createArticles(articles) {
         article_img.src = url;
         article_title.textContent = title;
         article_desc.textContent = desc;
-        article_author.href = '#HereWillBeLinkToAuthor';
+        article_author.href = `/profile?id=${author_id}`;
         article_author.textContent = author;
         article_date = created;
 

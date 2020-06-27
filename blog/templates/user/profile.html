@@ -1,15 +1,79 @@
-{% extends 'auth.html' %}
+{% extends 'base.html' %}
 
 {% block links %}
     {% load static %}
-    <link rel="stylesheet" href="{% static '/form.css' %}">
+    <link rel="stylesheet" href="{% static '/profile.css' %}">
 {% endblock %}
 
 {% block title %}Профиль{% endblock %}
 
 {% block content %}
-    <p>Имя пользователя: {{user}}</p>
-    <p>Статей написано: {{articleCount}}</p>
-    <p>Последние статьи: {{lastArticles.article_title}}</p>
-    <p>Скоро вы сможете писать статьи</p>
+    <div class="wrapper">
+        <div class="user">
+            <div class="user__info">
+                <div class="user__info-top">
+                    <h1 class="user__info-name">{{profile.user}}</h1>
+                    {% if request.user == profile.user %}
+                        <a class="edit-profile" href="/profile/edit">Редактировать</a>
+                    {% endif %}
+                </div>
+                <p class="user__info-bio">
+                    {% if profile.bio %}
+                        {{profile.bio}}
+                    {% else %}
+                        <p class="add_bio">Пользователь не добавил описание</p>
+                    {% endif %}
+                </p>
+            </div>
+            <div class="user__avatar">
+                <img class="user__avatar-img" src="{{profile.avatar.url}}" alt="Avatar">
+            </div>
+        </div>
+        <div class="user_content">
+            <div class="articles">
+                <h3 class="articles__title">Последние статьи</h3>
+                
+                {% if lastArticles %}
+                    {% for a in lastArticles %}
+                
+                        <div class="article">
+                            <a href="/article?id={{a.id}}" class="article__image">
+                                <img src="{{ a.article_image.url }}" class="article__image-img" alt="article image">
+                            </a>
+                            <a href="/article?id={{a.id}}" class="article__title">{{ a.article_title }}</a>
+                            <a href="/article?id={{a.id}}" class="article__desc">{{ a.article_description }}</a>
+                            <div class="article__meta">
+                                <button class="like-btn">
+                                    <svg height="24" version="1.1" width="24">
+                                        <g transform="translate(0 -1028.4)">
+                                            <path d="m7 1031.4c-1.5355 0-3.0784 0.5-4.25 1.7-2.3431 2.4-2.2788 6.1 0 8.5l9.25 9.8 9.25-9.8c2.279-2.4 2.343-6.1 0-8.5-2.343-2.3-6.157-2.3-8.5 0l-0.75 0.8-0.75-0.8c-1.172-1.2-2.7145-1.7-4.25-1.7z" fill="#c0392b"/>
+                                        </g>
+                                    </svg>
+                                    <span>{{ a.likes }}</span>
+                                </button>
+                                <p class="article__date">{{ a.pub_date }}</p>
+                            </div>
+                        </div>
+
+                    {% endfor %}
+                {% else %}
+                    <p>Не найдены</p>
+                {% endif %}
+                
+            </div>
+            <div class="comments">
+                <h3 class="comments__title">Последние комментарии</h3>
+                {% if lastComments %}
+                    {% for c in lastComments %}
+                        <div class="comment">
+                            <p class="comment-text">{{ c.comment_text }}</p>
+                            <a href="/article?id={{ c.article.id }}" class='comment__link' href="">Перейти к статье</a>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>Не найдены</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 {% endblock %}

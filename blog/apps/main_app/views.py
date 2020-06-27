@@ -1,6 +1,6 @@
 # TODO: Make like button
-# TODO: Make authorization
 # TODO: Customizate admin panel
+# TODO: Make ability to create, update and delete articles
 
 import json
 
@@ -9,9 +9,11 @@ from django.http import HttpResponse, Http404
 
 from django.utils import timezone
 
-from .models import Category, Article, Comment
+from .models import Category, Article, Comment, UserProfile
 
 from .forms import CreateUserForm
+from django.contrib.auth.models import User
+
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib import messages
 
@@ -55,7 +57,8 @@ def loadArticles(req):
         article["img"]         = a.article_image.url
         article["title"]       = a.article_title
         article["desc"]        = a.article_description
-        article["author_name"] = a.author_name
+        article["author_name"] = a.author.username
+        article["author_id"]   = a.author.id
         article["date"]        = a.pub_date.strftime("%d %B %Y %H:%M")
         article["category"]    = a.category.name
         article["category_no"] = a.category.category_no
@@ -72,24 +75,56 @@ def article(req):
     categories = Category.objects.all()
    
     try:
-        article = Article.objects.get(id = id)
+        article        = Article.objects.get(id = id)
+        profile        = UserProfile.objects.get(user = article.author)
+        currentProfile = UserProfile.objects.get(user = req.user)
     except:
         raise Http404('Статья не найдена')
 
     latest_comments_list = article.comment_set.order_by('-id')[:10]
     
     article.article_text = parseArticleText(article.article_text)
-    return render(req, 'pages/article.html', { 'article': article, 'categories': categories, 'category_id': article.category_id, 'comments': latest_comments_list })
+    return render(req, 'pages/article.html', { 'article': article, 'categories': categories, 'category_id': article.category_id, 'comments': latest_comments_list, 'profile': profile, 'current_profile': currentProfile })
 
 def profile(req):
 
-    user = req.user
+    id      = req.GET.get('id')
+    user    = User.objects.get(id = id)
+    profile = UserProfile.objects.get(user = user)
 
-    last_articles = Article.objects.filter(author = user)[3]
-    articleCount  = len(Article.objects.filter(author = user))
+    last_articles = Article.objects.filter(author = user).order_by('-pub_date')
+    last_comments = Comment.objects.filter(author = profile).order_by('-pub_date')
 
-    return render(req, 'user/profile.html', {'articleCount': articleCount, 'lastArticles': last_articles, 'user': user})
+    if (last_articles):
+        last_articles = last_articles[0:8]
 
+    if (last_comments):
+        last_comments = last_comments[0:4]
+
+    return render(req, 'user/profile.html', {'lastArticles': last_articles, 'lastComments': last_comments, 'profile': profile})
+
+def edit_profile(req):
+
+    profile = UserProfile.objects.get(user = req.user)
+
+    return render(req, 'user/edit.html', {'profile': profile})
+
+def update_profile(req):
+
+    if req.user.is_authenticated:
+
+        data = json.loads(req.body)
+
+        profile               = UserProfile.objects.get(user = req.user)
+        profile.user.username = data['username']
+        profile.bio           = data['bio']
+        profile.save()
+        profile.user.save()
+
+        context = json.dumps(data)
+
+        return HttpResponse(context, content_type="application/json")
+        
 
 def leave_comment(req, article_id):
 
@@ -101,12 +136,16 @@ def leave_comment(req, article_id):
             raise Http404("Статья не найдена")
 
         data = json.loads(req.body)
+        profile = UserProfile.objects.get(user = req.user)
         
-        c = a.comment_set.create(author_name = req.user.username, comment_text = data['text'], pub_date = timezone.now())
+        c = a.comment_set.create(author = profile, comment_text = data['text'], pub_date = timezone.now())
 
         comment                = {}
         comment["id"]          = c.id
-        comment["author_name"] = c.author_name
+        comment["image"]       = c.author.avatar.url
+        comment["author_name"] = c.author.user.username
+        comment["author_id"]   = c.author.user.id
+        comment["show-delete"] = True
         comment["pub_date"]    = c.pub_date.strftime("%d %B %Y %H:%M")
         comment["text"]        = c.comment_text
 
@@ -130,15 +169,31 @@ def loadComments(req):
     for c in latest_comments:
         comment                = {}
         comment["id"]          = c.id
-        comment["author_name"] = c.author_name
+        comment["image"]       = c.author.avatar.url
+        comment["author_name"] = c.author.user.username
+        comment["author_id"]   = c.author.user.id
         comment["pub_date"]    = c.pub_date.strftime("%d %B %Y %H:%M")
         comment["text"]        = c.comment_text
+
+        if c.author.user == req.user:
+            comment["show-delete"] = True
+        else:
+            comment["show-delete"] = False
 
         response_data.append(comment)
 
     context = json.dumps(response_data)
 
     return HttpResponse(context, content_type="application/json")
+
+def deleteComment(req):
+
+    id = req.GET.get('id')
+
+    Comment.objects.filter(id = id).delete()
+
+    jsonr = json.dumps({ 'deleted': True })
+    return HttpResponse(jsonr, content_type="application/json")
 
 def login(req):
 
@@ -175,15 +230,18 @@ def register(req):
         if req.method == 'POST':
             form = CreateUserForm(req.POST) # Create new form to check validation
             if form.is_valid():
-                form.save() # Create new User
-                user = form.cleaned_data.get('username')
-                messages.success(req, 'Аккаунт был создан ' + user)
+                user = form.save() # Create new User
+                UserProfile.objects.create(user = user) # Create Profile for new User
+                username = form.cleaned_data.get('username')
 
+                messages.success(req, 'Аккаунт был создан ' + username)
+                auth_login(req, user)
                 return redirect('/')
 
         context = {'form': form}
         return render(req, 'pages/register.html', context)
 
+# TODO: Move to another .py file
 def parseArticleText(text):
 
     lines = text.splitlines()

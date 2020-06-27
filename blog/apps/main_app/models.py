@@ -3,6 +3,21 @@ from django.db import models
 from django.utils import timezone
 from django.conf import settings
 
+from django.contrib.auth.models import User
+
+class UserProfile(models.Model):
+
+    user   = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio    = models.CharField('Описание пользователя', max_length=170)
+    avatar = models.ImageField(upload_to='img/users', max_length=100, default='img/default_images/defaultUser.png')
+
+    class Meta:
+        verbose_name = 'Профиль'
+        verbose_name_plural = 'Профили'
+
+    def __str__(self):
+        return self.user.username
+
 class Category(models.Model):
     category_no   = models.IntegerField('Номер категории', primary_key=True)
     name          = models.CharField('Название категории', max_length=50)
@@ -60,12 +75,12 @@ class Article(models.Model):
 class Comment(models.Model):
     article      = models.ForeignKey(Article, on_delete = models.CASCADE)
     
-    author_name  = models.CharField('Автор комментария', max_length = 50)
+    author       = models.ForeignKey(UserProfile, on_delete = models.CASCADE)
     comment_text = models.CharField('Текст комментария', max_length = 200)
     pub_date     = models.DateTimeField('Дата публикации')
 
     def __str__(self):
-        return self.author_name
+        return self.author.username
 
     class Meta:
         verbose_name = 'Комментарий'

@@ -3,7 +3,8 @@ let
     container      = document.querySelector('.comments'), 
     likeBtn        = document.querySelector('.like-btn'),
     commentsLoaded = document.querySelectorAll(`.comments .comment`).length,
-    commentForm    = document.querySelector('.comments__form');
+    commentForm    = document.querySelector('.comments__form'),
+    deleteBtns     = document.querySelectorAll('.comments .delete_comment');
 
 if (commentsLoaded >= 10) {
     loadBtn.style.display = 'flex';
@@ -11,6 +12,10 @@ if (commentsLoaded >= 10) {
 
 loadBtn.addEventListener('click', getComments); // Get comments from server
 likeBtn.addEventListener('click', sendLike);
+
+deleteBtns.forEach(btn => {
+    btn.addEventListener('click', deleteComment)
+});
 
 commentForm.onsubmit = function() {
 
@@ -79,12 +84,15 @@ function createComments(comments) {
         let
             id           = comments[i].id,
             name         = comments[i].author_name,
+            image        = comments[i].image
+            author_id    = comments[i].author_id,
             pub_date     = comments[i].pub_date,
             comment_text = comments[i].text;
 
         let
             comment      = document.createElement('div'),
             about_author = document.createElement('div'),
+            about_wrap   = document.createElement('div'),
             text         = document.createElement('p'),
             avatar_a     = document.createElement('a'),
             avatar_img   = document.createElement('img'),
@@ -94,6 +102,7 @@ function createComments(comments) {
         
         comment.classList.add('comment');
         about_author.classList.add('about_author');
+        about_wrap.classList.add('about_author-wrap')
         text.classList.add('comment-text');
         avatar_a.classList.add('avatar');
         info.classList.add('author-info');
@@ -101,20 +110,61 @@ function createComments(comments) {
         date.classList.add('date');
 
         comment.appendChild(about_author);
-        about_author.appendChild(avatar_a);
+        about_author.appendChild(about_wrap);
+        about_wrap.appendChild(avatar_a);
         avatar_a.appendChild(avatar_img);
-        about_author.appendChild(info);
+        about_wrap.appendChild(info);
         info.appendChild(author_name);
         info.appendChild(date);
         comment.appendChild(text);
 
+        comment.setAttribute('data-id', id);
         author_name.textContent = name;
+        avatar_img.src          = image;
+        author_name.href        = `/profile?id=${author_id}`;
+        avatar_a.href           = `/profile?id=${author_id}`;
         date.textContent        = pub_date;
         text.textContent        = comment_text;
+
+        if (comments[i]['show-delete']) {
+            delete_p     = document.createElement('p');
+            about_author.appendChild(delete_p)
+            delete_p.title          = 'Удалить комментари'; 
+            delete_p.style          = 'margin: 0'; 
+            delete_p.innerHTML = `
+                <svg class="delete_comment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                    <path d="M38 12.83L35.17 10 24 21.17 12.83 10 10 12.83 21.17 24 10 35.17 12.83 38 24 26.83 35.17 38 38 35.17 26.83 24z"/>
+                </svg>`;
+
+                let btn = delete_p.children[0];
+
+                btn.addEventListener('click', deleteComment);
+        }
+
 
         container.insertBefore(comment, loadBtn);
 
     }
+
+}
+
+function deleteComment() {
+
+    const comment = this.parentNode.parentNode.parentNode; // Get comment
+    const commentId = comment.dataset.id;
+
+    fetch(`/deleteComment?id=${commentId}`, {method: "GET"})
+        .then(res => {
+            if (res.status == 404 || res.status == 500) {
+                alert('Error');
+            } else {
+                comment.remove();
+            }
+        })
+        .catch((e) => {
+            console.log(e);
+            alert('Error');
+        });
 
 }
 
@@ -132,13 +182,16 @@ function updateComments(newComment) {
 
     let
         id           = newComment.id,
+        image        = newComment.image
         name         = newComment.author_name,
+        author_id    = newComment.author_id,
         pub_date     = newComment.pub_date,
         comment_text = newComment.text;
 
     let
         comment      = document.createElement('div'),
         about_author = document.createElement('div'),
+        about_wrap   = document.createElement('div'),
         text         = document.createElement('p'),
         avatar_a     = document.createElement('a'),
         avatar_img   = document.createElement('img'),
@@ -148,6 +201,7 @@ function updateComments(newComment) {
     
     comment.classList.add('comment');
     about_author.classList.add('about_author');
+    about_wrap.classList.add('about_author-wrap')
     text.classList.add('comment-text');
     avatar_a.classList.add('avatar');
     info.classList.add('author-info');
@@ -155,16 +209,36 @@ function updateComments(newComment) {
     date.classList.add('date');
 
     comment.appendChild(about_author);
-    about_author.appendChild(avatar_a);
+    about_author.appendChild(about_wrap);
+    about_wrap.appendChild(avatar_a);
     avatar_a.appendChild(avatar_img);
-    about_author.appendChild(info);
+    about_wrap.appendChild(info);
     info.appendChild(author_name);
     info.appendChild(date);
     comment.appendChild(text);
-
+ 
+    comment.setAttribute('data-id', id);
     author_name.textContent = name;
+    avatar_img.src = image;
+    author_name.href        = `/profile?id=${author_id}`;
+    avatar_a.href           = `/profile?id=${author_id}`;
     date.textContent        = pub_date;
     text.textContent        = comment_text;
+
+    if (newComment['show-delete']) {
+        delete_p     = document.createElement('p');
+        about_author.appendChild(delete_p)
+        delete_p.title          = 'Удалить комментари'; 
+        delete_p.style          = 'margin: 0'; 
+        delete_p.innerHTML = `
+            <svg class="delete_comment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                <path d="M38 12.83L35.17 10 24 21.17 12.83 10 10 12.83 21.17 24 10 35.17 12.83 38 24 26.83 35.17 38 38 35.17 26.83 24z"/>
+            </svg>`;
+
+        let btn = delete_p.children[0];
+
+        btn.addEventListener('click', deleteComment);
+    }
 
     container.insertBefore(comment, document.querySelectorAll('.comment')[0]);
 }
@@ -182,7 +256,6 @@ function sendLike(e) {
     alert("Not working yet)");
 }
 
-// TODO: Get it
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie !== '') {

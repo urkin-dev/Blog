@@ -24,15 +24,6 @@
     margin-bottom: 30px;
 }
 
-/* TODO: Change when the accaunts will be */
-.author_name {
-    text-decoration: none;
-    color: #2f2f2f;
-    margin-top: 20px;
-    display: block;
-    width: 200px;
-}
-
 .article_img {
     max-width: 100%;
     width: 100%;
@@ -99,13 +90,27 @@
 
 .avatar {
     min-width: 36px;
+    max-width: 36px;
     min-height: 36px;
+    max-height: 36px;
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background-color: #666666;
     margin-right: 15px;
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.about_author-wrap {
+    display: flex;
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .comments__form-textarea {
@@ -149,6 +154,18 @@
 .about_author {
     width: 100%;
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.delete_comment {
+    width: 15px;
+    height: 15px;
+    fill: rgb(85, 85, 85);
+}
+
+.delete_comment:hover {
+    cursor: pointer;
 }
 
 .author-info {

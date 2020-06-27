@@ -8,6 +8,7 @@
 {% block title %} Главная {% endblock title %}
 
 {% block content %}
+    {% include 'filters.html' %}
     <div class="wrapper">
         <div class="popular-wrapper">
 
@@ -19,7 +20,7 @@
                         <a href="/article?id={{main_article.id}}" class="popular-article__image-wrap"><img src=" {{ main_article.article_image.url }} " alt="Article image" class="popular-article__img"></a>
                         <a href="/article?id={{main_article.id}}" class="popular-article__title">{{ main_article.article_title }}</a>
                         <a href="/article?id={{main_article.id}}"><p class="popular-article__desc">{{ main_article.article_description }}</p></a>
-                        <a href="" class="popular-article__author-name">{{ main_article.author }}</a>
+                        <a href="/profile?id={{main_article.author.id}}" class="popular-article__author-name">{{ main_article.author }}</a>
                         <span class="popular-article__date">{{ main_article.pub_date }}</span>
                         <a href="/category?id={{main_article.category_id}}" class="article-category">{{ main_article.category }}</a>
                     </div>
@@ -36,7 +37,7 @@
                             <a href="/article?id={{a.id}}" class="popular-article__image-wrap"><img src="{{ a.article_image.url }}" alt="Article image" class="popular-article__img"></a>
                             <a href="/article?id={{a.id}}" class="popular-article__title">{{a.article_title}}</a>
                             <a href="/article?id={{a.id}}"><p class="popular-article__desc">{{a.article_description}}</p></a>
-                            <a href="" class="popular-article__author-name">{{a.author}}</a>
+                            <a href="/profile?id={{a.author.id}}" class="popular-article__author-name">{{a.author}}</a>
                             <span class="popular-article__date">{{a.pub_date}}</span>
                             <a href="/category?id={{a.category_id}}" class="article-category">{{ a.category }}</a>
                         </div>      
@@ -56,7 +57,7 @@
                         <div class="article__content">
                             <a href="/article?id={{a.id}}" class="article__title">{{ a.article_title }}</a>
                             <a href="/article?id={{a.id}}"><p class="article__desc">{{ a.article_description }}</p></a>
-                            <a href="" class="article__author-name">{{ a.author }}</a>
+                            <a href="/profile?id={{a.author.id}}" class="article__author-name">{{ a.author }}</a>
                             <a href="/category?id={{a.category_id}}" class="article-category">{{ a.category }}</a>
                             <p class="article__date">{{ a.pub_date }}</p>
                             <button class="like-btn">
@@ -87,4 +88,5 @@
     </footer>
     {% load static %}
     <script src="{% static '/home.js' %}"></script>
+    <script src="{% static '/filterSlider.js' %}"></script>
 {% endblock content %}

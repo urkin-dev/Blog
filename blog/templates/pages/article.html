@@ -8,17 +8,17 @@
 {% block title %}{{ article.article_title }}{% endblock %}
 
 {% block content %}
-
+    {% include 'filters.html' %}
     <div class="wrapper">
         <div class="article">
             <h1 class="article__title">{{article.article_title}}</h1>
             <p class="article__desc">{{article.article_description}}</p>
             <div class="about_author">
-                <a href="" class="avatar">
-                    <img src="#Users avatar" alt="">
+                <a href="/profile?id={{article.author.id}}" class="avatar">
+                    <img src="{{profile.avatar.url}}" alt="Avatar">
                 </a>
                 <div class="author-info">
-                    <a href="" class="author-info__name">Ivan Yurkin</a>
+                    <a href="/profile?id={{article.author.id}}" class="author-info__name">{{profile.user}}</a>
                     <span class="date">{{article.pub_date}}</span>
                 </div>
             </div>
@@ -46,7 +46,7 @@
                 <form class="comments__form">
                     
                     <div class="avatar">
-                        <img src="#Users avatar" alt="">
+                        <img src="{{current_profile.avatar.url}}" alt="">
                     </div>
 
                     <textarea class="comments__form-textarea" name="text" placeholder="Напишите комментарий" maxlength = "200"></textarea>
@@ -57,15 +57,24 @@
                 {% if comments %}
                     
                     {% for comment in comments %}
-                        <div class="comment">
+                        <div class="comment" data-id="{{comment.id}}">
                             <div class="about_author">
-                                <a href="" class="avatar">
-                                    <img src="#Users avatar" alt="">
-                                </a>
-                                <div class="author-info">
-                                    <a href="" class="author-info__name">{{comment.author_name}}</a>
-                                    <span class="date">{{comment.pub_date}}</span>
+                                <div class="about_author-wrap">
+                                    <a href="/profile?id={{comment.author.id}}" class="avatar">
+                                        <img src="{{comment.author.avatar.url}}" alt="">
+                                    </a>
+                                    <div class="author-info">
+                                        <a href="/profile?id={{comment.author.id}}" class="author-info__name">{{comment.author}}</a>
+                                        <span class="date">{{comment.pub_date}}</span>
+                                    </div>
                                 </div>
+                                {% if user == comment.author.user %}
+                                <p title = 'Удалить комментарий' style="margin: 0;">
+                                    <svg class="delete_comment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                                        <path d="M38 12.83L35.17 10 24 21.17 12.83 10 10 12.83 21.17 24 10 35.17 12.83 38 24 26.83 35.17 38 38 35.17 26.83 24z"/>
+                                    </svg>
+                                </p>
+                                {% endif %}
                             </div>
                             <p class="comment-text">{{ comment.comment_text }}</p>
                         </div>
@@ -91,5 +100,6 @@
 
     {% load static %}
     <script src="{% static '/article.js' %}"></script>
+    <script src="{% static '/filterSlider.js' %}"></script>
 
 {% endblock %}

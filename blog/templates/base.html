@@ -21,7 +21,7 @@
                         <path d="M20.067 18.933l-4.157-4.157a6 6 0 1 0-.884.884l4.157 4.157a.624.624 0 1 0 .884-.884zM6.5 11c0-2.62 2.13-4.75 4.75-4.75S16 8.38 16 11s-2.13 4.75-4.75 4.75S6.5 13.62 6.5 11z"></path>
                     </svg>
                 </label>
-                <input type="text" name="search" class="search-input" placeholder="Search">
+                <input type="text" name="search" class="search-input" placeholder="Поиск(не работет)">
 
                 {% if request.user.is_anonymous %}
                     <a class="signin-link" href="{% url 'main_app:login' %}">Войти</a>
@@ -49,35 +49,8 @@
             </g>
         </svg>
     </button>
-    <div class="wrapper">
-        <!-- TODO: Make filters fixed -->
-        <div class="filters-wrapper">
-               <div class="filters">
-                   <div class="filters__inner">
-                        {% for c in categories %}
-                            {% if c.category_no == category_id %}
-                                <span class="link-container"><a href="/category?id={{c.category_no}}" class="filters__link active">{{ c.name }}</a></span>                            
-                            {% else %}
-                                <span class="link-container"><a href="/category?id={{c.category_no}}" class="filters__link">{{ c.name }}</a></span>                            
-                            {% endif %}
-                        {% endfor %}
-                   </div>
-               </div>
-               <a class="prev disabled">
-                   <svg width="21" height="21">
-                       <path d="M13.402 16.957l-6.478-6.479L13.402 4l.799.71-5.768 5.768 5.768 5.77z" fill-rule="evenodd"></path>  
-                   </svg>
-               </a>
-               <a class="next">
-                   <svg width="21" height="21">
-                       <path d="M8.3 4.2l6.4 6.3-6.4 6.3-.8-.8 5.5-5.5L7.5 5" fill-rule="evenodd"></path>
-                   </svg>
-               </a>
-           </div>
-    </div>
     {% block content %}{% endblock %}
     {% load static %}
-    <script src="{% static '/filterSlider.js' %}"></script>
     <script src="{% static '/upbutton.js' %}"></script>
 </body>
 </html>
