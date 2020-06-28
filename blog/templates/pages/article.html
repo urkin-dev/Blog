@@ -15,10 +15,10 @@
             <p class="article__desc">{{article.article_description}}</p>
             <div class="about_author">
                 <a href="/profile?id={{article.author.id}}" class="avatar">
-                    <img src="{{profile.avatar.url}}" alt="Avatar">
+                    <img src="{{author_profile.avatar.url}}" alt="Avatar">
                 </a>
                 <div class="author-info">
-                    <a href="/profile?id={{article.author.id}}" class="author-info__name">{{profile.user}}</a>
+                    <a href="/profile?id={{article.author.id}}" class="author-info__name">{{author_profile.user}}</a>
                     <span class="date">{{article.pub_date}}</span>
                 </div>
             </div>
@@ -46,7 +46,11 @@
                 <form class="comments__form">
                     
                     <div class="avatar">
-                        <img src="{{current_profile.avatar.url}}" alt="">
+                        {% if request.user.is_anonymous %}
+                            <img src="/media/img/default_images/defaultUser.png" alt="">
+                        {% else %}
+                            <img src="{{profile.avatar.url}}" alt="">
+                        {% endif %}
                     </div>
 
                     <textarea class="comments__form-textarea" name="text" placeholder="Напишите комментарий" maxlength = "200"></textarea>
@@ -58,7 +62,7 @@
                     
                     {% for comment in comments %}
                         <div class="comment" data-id="{{comment.id}}">
-                            <div class="about_author">
+                            <div class="comment__about_author">
                                 <div class="about_author-wrap">
                                     <a href="/profile?id={{comment.author.id}}" class="avatar">
                                         <img src="{{comment.author.avatar.url}}" alt="">

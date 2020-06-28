@@ -4,11 +4,35 @@ from django import forms
 from main_app.models import UserProfile
 
 class CreateUserForm(UserCreationForm):
+    username = forms.CharField(error_messages={'required': 'Введите имя пользователя'})
+    
+    error_messages = {
+        'password_mismatch': ("Пароли не совпадают"),
+    }
+
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2']
+        fields = ['username', 'password1', 'password2']
 
-class UploadFileForm(forms.Form):
-    username = forms.CharField(max_length=50)
-    bio      = forms.CharField(max_length=170)
-    file     = forms.FileField()
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username']
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'username-edit'})
+        }
+
+class ProfileUpdateForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(ProfileUpdateForm, self).__init__(*args, **kwargs)
+
+        self.fields['bio'].required = False
+
+    class Meta:
+        model = UserProfile
+        fields = ['bio', 'avatar']
+        widgets = {
+            'bio': forms.Textarea(attrs={'class': 'bio-edit', 'maxlength': '170', 'placeholder': 'Введите короткое описание'})
+        }

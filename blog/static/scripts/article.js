@@ -101,7 +101,7 @@ function createComments(comments) {
             date         = document.createElement('span');
         
         comment.classList.add('comment');
-        about_author.classList.add('about_author');
+        about_author.classList.add('comment__about_author');
         about_wrap.classList.add('about_author-wrap')
         text.classList.add('comment-text');
         avatar_a.classList.add('avatar');
@@ -200,7 +200,7 @@ function updateComments(newComment) {
         date         = document.createElement('span');
     
     comment.classList.add('comment');
-    about_author.classList.add('about_author');
+    about_author.classList.add('comment__about_author');
     about_wrap.classList.add('about_author-wrap')
     text.classList.add('comment-text');
     avatar_a.classList.add('avatar');

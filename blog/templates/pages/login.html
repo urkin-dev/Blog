@@ -13,22 +13,23 @@
         <form action="" method="POST" class="register-form">
 
             {% csrf_token %}
+
+            {% for m in messages %}
+                 <p class='error-message'>{{ m}}</p>
+            {% endfor %}
     
-            <label for="id_email">Введите ваш логин</label>
+            <label class="register-form__lbl" for="id_email">Имя пользователя</label>
             <input type="username" name="username" id="id_email">
-            <label for="id_password">Пароль</label>
+            <label class="register-form__lbl" for="id_password">Пароль</label>
             <input type="password" name="password" id="id_password">
 
-            {% for message in messages %}
-                <p class='message'>{{message}}</p>
-            {% endfor %}
+            <button type="submit" class="register-btn">Войти</button>
 
             <p>
-                Нет аккаунта?
-                <a href="{% url 'main_app:register' %}">Зарегистрироваться</a>
+                <span>Нет аккаунта?</span>
+                <a class="sign-in" href="{% url 'main_app:register' %}">Зарегистрироваться</a>
             </p>
 
-            <input type="submit" name="Create User" class="register-btn">
         </form>
     </div>
 {% endblock %}

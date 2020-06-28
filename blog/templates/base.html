@@ -28,7 +28,7 @@
                 {% else %}
                     <input type="checkbox" id="show-menu">
                     <label class="show-menu" for="show-menu">
-                        <img src="/media/img/default_images/defaultUser.png" alt="Avatar" width="35px" height="35px">
+                        <img src="{{profile.avatar.url}}" alt="Avatar" width="35px" height="35px">
                     </label>
                     <div class="user-menu">
                         <a href="/profile?id={{request.user.id}}" class="user-menu__account">Профиль</a>

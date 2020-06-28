@@ -11,21 +11,39 @@ from django.utils import timezone
 
 from .models import Category, Article, Comment, UserProfile
 
-from .forms import CreateUserForm
+from .forms import CreateUserForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth.models import User
 
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib import messages
 
+from django.contrib.auth.decorators import login_required
+
+from django import forms
+
 def index(req):
+
     categories          = Category.objects.all()
     main_articles       = Article.objects.filter(is_main_in_homepage=True).order_by('likes') # Get three main articles and order by likes
     main_articles_array = main_articles[1:]
 
     popular_articles = Article.objects.order_by('-likes')[:10]
-    return render(req, 'pages/index.html', { 'categories': categories, 'main_article': main_articles[0], 'articles': popular_articles, 'main_articles': main_articles_array })
+
+    context = {
+        'categories': categories,
+        'main_article': main_articles[0],
+        'articles': popular_articles, 
+        'main_articles': main_articles_array
+    }
+
+    if req.user.is_authenticated:
+        profile = UserProfile.objects.get(user = req.user)
+        context['profile'] = profile
+
+    return render(req, 'pages/index.html', context)
 
 def category(req):
+
     categories   = Category.objects.all()
     id           = req.GET.get('id')
     current_cat  = Category.objects.get(category_no = id)
@@ -36,7 +54,19 @@ def category(req):
     except Article.DoesNotExist:
         main_article = None
     
-    return render(req, 'pages/category.html', { 'categories': categories, 'articles': articles, 'main_article': main_article, 'current_cat': current_cat, 'category_id': int(id) })
+    context = {
+        'categories': categories, 
+        'articles': articles, 
+        'main_article': main_article, 
+        'current_cat': current_cat, 
+        'category_id': int(id)
+    }
+
+    if req.user.is_authenticated:
+        profile = UserProfile.objects.get(user = req.user)
+        context['profile'] = profile
+
+    return render(req, 'pages/category.html', context)
 
 def loadArticles(req):
     count = req.GET.get('count', 10)
@@ -77,20 +107,37 @@ def article(req):
     try:
         article        = Article.objects.get(id = id)
         profile        = UserProfile.objects.get(user = article.author)
-        currentProfile = UserProfile.objects.get(user = req.user)
     except:
         raise Http404('Статья не найдена')
 
     latest_comments_list = article.comment_set.order_by('-id')[:10]
     
     article.article_text = parseArticleText(article.article_text)
-    return render(req, 'pages/article.html', { 'article': article, 'categories': categories, 'category_id': article.category_id, 'comments': latest_comments_list, 'profile': profile, 'current_profile': currentProfile })
+
+    context = {
+        'article': article, 
+        'categories': categories, 
+        'category_id': article.category_id, 
+        'comments': latest_comments_list, 
+        'author_profile': profile
+    }
+
+    if req.user.is_authenticated:
+        currentProfile = UserProfile.objects.get(user = req.user)
+        context['profile'] = currentProfile
+
+    return render(req, 'pages/article.html', context)
+
 
 def profile(req):
 
     id      = req.GET.get('id')
-    user    = User.objects.get(id = id)
-    profile = UserProfile.objects.get(user = user)
+
+    try:
+        user    = User.objects.get(id = id)
+        profile = UserProfile.objects.get(user = user)
+    except:
+        raise Http404('Пользователь не найден')
 
     last_articles = Article.objects.filter(author = user).order_by('-pub_date')
     last_comments = Comment.objects.filter(author = profile).order_by('-pub_date')
@@ -103,28 +150,30 @@ def profile(req):
 
     return render(req, 'user/profile.html', {'lastArticles': last_articles, 'lastComments': last_comments, 'profile': profile})
 
+@login_required
 def edit_profile(req):
 
     profile = UserProfile.objects.get(user = req.user)
 
-    return render(req, 'user/edit.html', {'profile': profile})
+    if req.method == 'POST':
 
-def update_profile(req):
+        u_form = UserUpdateForm(req.POST, instance = req.user)
+        p_form = ProfileUpdateForm(req.POST, req.FILES, instance = profile)
 
-    if req.user.is_authenticated:
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(req, 'Ваш аккаунт обновлен')
+            return redirect('/profile/edit')
 
-        data = json.loads(req.body)
+    else:
+        u_form = UserUpdateForm(instance = req.user)
+        p_form = ProfileUpdateForm(instance = profile)
 
-        profile               = UserProfile.objects.get(user = req.user)
-        profile.user.username = data['username']
-        profile.bio           = data['bio']
-        profile.save()
-        profile.user.save()
+    context = {'u_form': u_form, 'p_form': p_form, 'profile': profile}
 
-        context = json.dumps(data)
+    return render(req, 'user/edit.html', context)
 
-        return HttpResponse(context, content_type="application/json")
-        
 
 def leave_comment(req, article_id):
 
@@ -195,6 +244,7 @@ def deleteComment(req):
     jsonr = json.dumps({ 'deleted': True })
     return HttpResponse(jsonr, content_type="application/json")
 
+
 def login(req):
 
     if req.user.is_authenticated:
@@ -212,7 +262,7 @@ def login(req):
                 auth_login(req, user)
                 return redirect('/')
             else:
-                messages.info(req, 'Username or password is incorrect')
+                messages.info(req, 'Имя пользователя или пароль неправильные')
                 return render(req, 'pages/login.html', context)
 
         return render(req, 'pages/login.html', context)
@@ -225,18 +275,17 @@ def register(req):
     if req.user.is_authenticated:
         return redirect('/')
     else:
-        form = CreateUserForm()
+        form = CreateUserForm(use_required_attribute=False)
 
         if req.method == 'POST':
             form = CreateUserForm(req.POST) # Create new form to check validation
             if form.is_valid():
                 user = form.save() # Create new User
+                print(user)
                 UserProfile.objects.create(user = user) # Create Profile for new User
                 username = form.cleaned_data.get('username')
-
-                messages.success(req, 'Аккаунт был создан ' + username)
                 auth_login(req, user)
-                return redirect('/')
+                return redirect('/profile/edit')
 
         context = {'form': form}
         return render(req, 'pages/register.html', context)

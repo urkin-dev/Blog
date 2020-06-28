@@ -3,12 +3,14 @@
 {% block links %}
     {% load static %}
     <link rel="stylesheet" href="{% static '/home.css' %}">
+    <link rel="stylesheet" href="{% static '/banner.css' %}">
 {% endblock links %}
 
 {% block title %} Главная {% endblock title %}
 
 {% block content %}
     {% include 'filters.html' %}
+    {% include 'banner.html' %}
     <div class="wrapper">
         <div class="popular-wrapper">
 

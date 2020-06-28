@@ -14,25 +14,27 @@
 
             {% csrf_token %}
 
-            {% for error, text in form.errors.items %}
-                {{text}}
-            {% endfor %}
+            {% if form.username.errors %}
+                <p class='error-message'>{{ form.username.errors.as_text }}</p>
+            {% endif %}
+            {% if form.password1.errors or form.password2.errors  %}
+                <p class='error-message'>{{ form.password2.errors.as_text }}</p>
+            {% endif %}
 
-            <label for="id_username">{{form.username.label}}</label>
+            <label class="register-form__lbl" for="id_username">Имя пользователя</label>
             {{form.username}}
-            <label for="id_email">{{form.email.label}}</label>
-            {{form.email}}
-            <label for="id_password1">{{form.password1.label}}</label>
+            <label class="register-form__lbl" for="id_password1">Пароль</label>
             {{form.password1}}
-            <label for="id_password2">{{form.password2.label}}</label>
+            <label class="register-form__lbl" for="id_password2">Повторите пароль</label>
             {{form.password2}}
+            
+            <button type="submit" class="register-btn">Зарегистрироваться</button>
 
             <p>
-                Уже есть аккаунт?
-                <a href="{% url 'main_app:login' %}">Войти</a>
+                <span>Уже есть аккаунт?</span>
+                <a class="sign-in" href="{% url 'main_app:login' %}">Войти</a>
             </p>
 
-            <input type="submit" name="Create User" class="register-btn">
         </form>
     </div>
 {% endblock %}

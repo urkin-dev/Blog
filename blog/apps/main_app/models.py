@@ -5,6 +5,12 @@ from django.conf import settings
 
 from django.contrib.auth.models import User
 
+from PIL import Image
+
+import os
+from django.db.models.signals import pre_save
+from django.dispatch.dispatcher import receiver
+
 class UserProfile(models.Model):
 
     user   = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -17,6 +23,16 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+    def save(self, *args, **kwargs):
+        super().save()
+
+        img  = Image.open(self.avatar.path)
+
+        if img.height > 300 or img.width > 300:
+            output_size = (300, 300)
+            img.thumbnail(output_size)  
+            img.save(self.avatar.path)
 
 class Category(models.Model):
     category_no   = models.IntegerField('Номер категории', primary_key=True)
@@ -79,9 +95,35 @@ class Comment(models.Model):
     comment_text = models.CharField('Текст комментария', max_length = 200)
     pub_date     = models.DateTimeField('Дата публикации')
 
-    def __str__(self):
-        return self.author.username
-
     class Meta:
         verbose_name = 'Комментарий'
         verbose_name_plural = 'Комментарии'
+
+# Delete images from media folder when they uploaded
+@receiver(pre_save, sender=UserProfile)
+def delete_avatar(sender, instance, *args, **kwargs):
+    try:
+        old_instance = UserProfile.objects.get(id=instance.id)
+        old_avatar = os.path.basename(old_instance.avatar.name)
+        new_avatar = os.path.basename(instance.avatar.name)
+
+        if (old_avatar != new_avatar):
+            if (old_avatar != 'defaultUser.png'):
+                os.remove(old_instance.avatar.path)
+            
+    except UserProfile.DoesNotExist:
+        return None
+
+@receiver(pre_save, sender=Article)
+def delete_img(sender, instance, *args, **kwargs):
+    try:
+        old_instance = Article.objects.get(id=instance.id)
+        old_image = os.path.basename(old_instance.article_image.name)
+        new_image = os.path.basename(instance.article_image.name)
+
+        if (new_image != old_image):
+            if (old_image != 'default.jpg'):
+                os.remove(old_instance.article_image.path)
+            
+    except Article.DoesNotExist:
+        return None

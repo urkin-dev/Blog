@@ -61,88 +61,6 @@ body {
     padding: 0;
 }
 
-/************* For Edit page *************/
-
-.username-edit {
-    font-size: 32px;
-    color: #292929;
-    font-weight: bold;
-    margin: 0;
-    padding: 0;
-    border: none;
-    outline: none;
-}
-
-.bio-edit {
-    width: 500px;
-    height: 75px;
-    color: rgb(129, 129, 129);
-    font-size: 18px;
-    resize: none;
-    border: none;
-    outline: none;
-}
-
-#loadImage {
-    display: none;
-}
-
-.save, .close {
-    padding: 5px;
-    background-color: transparent;
-    outline: none;
-    border: none;
-    height: 35px;
-    border-radius: 5px;
-}
-
-.save {
-    border: 1px solid #029e74;
-    color: #029e74;
-    transition: .2s;
-}
-
-.save:hover {
-    border: 1px solid #115342;
-    color: #115342;
-    cursor: pointer;
-}
-
-.close {
-    border: 1px solid rgba(0, 0, 0, 0.158);
-    color: rgba(0, 0, 0, 0.568);
-    margin-left: 10px;
-    transition: .2s;
-}
-
-.close:hover {
-    border: 1px solid rgba(0, 0, 0, 0.781);
-    color: rgba(0, 0, 0, 0.822);
-    cursor: pointer;
-}
-
-.svg-photo {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    fill: rgb(179, 179, 179);
-    transition: .2s;
-    border-radius: 50%;
-}
-
-.svg-photo g {
-    transform: translate(32px, 32px);
-}
-
-.svg-photo:hover {
-    fill: #fff;
-    cursor: pointer;
-}
-
-
 .user__avatar {
     min-width: 128px;
     max-width: 128px;
@@ -256,6 +174,109 @@ body {
 
 .comment__link {
     color: rgba(0, 0, 0, 0.836);
+}
+
+.back-home {
+    color: #000;
+    margin-top: 15px;
+    display: block;
+    width: 100px;
+}
+
+/************* For Edit page *************/
+
+.username-edit {
+    font-size: 32px;
+    color: #292929;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+}
+
+.bio-edit {
+    width: 500px;
+    height: 75px;
+    color: rgb(129, 129, 129);
+    font-size: 18px;
+    resize: none;
+    border: none;
+    outline: none;
+}
+
+#loadImage {
+    display: none;
+}
+
+.save, .close {
+    padding: 5px;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    height: 35px;
+    border-radius: 5px;
+}
+
+.save {
+    border: 1px solid #029e74;
+    color: #029e74;
+    transition: .2s;
+}
+
+.save:hover {
+    border: 1px solid #115342;
+    color: #115342;
+    cursor: pointer;
+}
+
+.close {
+    border: 1px solid rgba(0, 0, 0, 0.158);
+    color: rgba(0, 0, 0, 0.568);
+    margin-left: 10px;
+    transition: .2s;
+    text-decoration: none;
+}
+
+.close:hover {
+    border: 1px solid rgba(0, 0, 0, 0.781);
+    color: rgba(0, 0, 0, 0.822);
+    cursor: pointer;
+}
+
+.svg-photo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    fill: rgb(179, 179, 179);
+    transition: .2s;
+    border-radius: 50%;
+}
+
+.svg-photo g {
+    transform: translate(32px, 32px);
+}
+
+.svg-photo:hover {
+    fill: #fff;
+    cursor: pointer;
+}
+
+.message {
+    border: 1px solid #029e74;
+    padding: 5px 15px;
+    border-radius: 5px;
+    color: #029e74;
+}
+
+.error-message {
+    border: 1px solid #a34747;
+    padding: 5px 15px;
+    border-radius: 5px;
+    color: #a34747;
 }
 
 @media screen and (max-width: 1000px) {

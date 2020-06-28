@@ -154,6 +154,11 @@
 .about_author {
     width: 100%;
     display: flex;
+}
+
+.comment__about_author {
+    width: 100%;
+    display: flex;
     align-items: center;
     justify-content: space-between;
 }
