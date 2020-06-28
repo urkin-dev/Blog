@@ -8,6 +8,15 @@ body {
     font-family: sans-serif;
 }
 
+.logo-a {
+    width: 100px;
+}
+
+.header-nav__logo {
+    width: 100%;
+    max-width: 100%;
+}
+
 .error {
     color: rgb(158, 50, 50);
 }
