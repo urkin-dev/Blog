@@ -35,7 +35,7 @@ body {
     padding: 0;
     margin: 0;
     transform: rotate(90deg);
-    translate: .3s opacity;
+    translate: .3s;
     background-color: transparent;
 }
 
