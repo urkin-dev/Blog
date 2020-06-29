@@ -101,6 +101,7 @@ def loadArticles(req):
     return HttpResponse(context, content_type="application/json")
 
 def article(req):
+
     id         = req.GET.get('id')
     categories = Category.objects.all()
    
@@ -111,6 +112,7 @@ def article(req):
         raise Http404('Статья не найдена')
 
     latest_comments_list = article.comment_set.order_by('-id')[:10]
+    comment_count        = article.comment_set.count()
     
     article.article_text = parseArticleText(article.article_text)
 
@@ -119,7 +121,8 @@ def article(req):
         'categories': categories, 
         'category_id': article.category_id, 
         'comments': latest_comments_list, 
-        'author_profile': profile
+        'author_profile': profile,
+        'comment_count': comment_count
     }
 
     if req.user.is_authenticated:
