@@ -1,0 +1,286 @@
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    font-family: sans-serif;
+}
+
+.logo-a {
+    width: 100px;
+}
+
+.header-nav__logo {
+    width: 100%;
+    max-width: 100%;
+}
+
+.error {
+    color: rgb(158, 50, 50);
+}
+
+.updown {
+    position: fixed;
+    top: 80%;
+    left: 80px;
+    width: 33px;
+    height: 33px;
+    border: 1px solid rgb(179, 175, 175);
+    border-radius: 50%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    transform: rotate(90deg);
+    translate: .3s;
+    background-color: transparent;
+}
+
+.updown:hover {
+    opacity: .8;
+    cursor: pointer;
+}
+
+.up {
+    display: flex;
+}
+
+.wrapper {
+    width: 80%;
+    margin: 0 auto;
+}
+
+header {
+    width: 100%;
+    height: 65px;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 4px 12px 0px;
+    position: relative;
+}
+
+.header-nav {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search-toggle {
+    width: 25px;
+    height: 25px;
+    display: block;
+    transition: .3s fill;
+    margin-right: 10px;
+}
+
+.search-toggle:hover {
+    cursor: pointer;
+    fill: rgb(82, 82, 82);
+}
+
+.header-nav__buttons {
+    display: flex;
+    align-items: center;
+}
+
+.search-input {
+    border: none;
+    height: 20px;
+    width: 0px;
+    margin-right: 10px;
+    transition: width 140ms ease-in 0s;
+}
+
+#search-toggle:checked ~ .search-input {
+    width: 180px
+}
+
+.show-menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    overflow: hidden;
+    outline: none;
+}
+
+.show-menu:hover {
+    cursor: pointer;
+}
+
+#show-menu {
+    display: none;
+}
+
+.signin-link {
+    text-decoration: none;
+    color: #000;
+}
+
+/* TODO: Make it relative to user profile icon */
+.user-menu {
+    display: none;
+    position: absolute;
+    flex-direction: column;
+    width: 150px;
+    background-color: #fff;
+    top: 65px;
+    min-height: 150px;
+    align-items: center;
+    justify-content: space-around;
+    z-index: 2000;
+    padding: 15px;
+    right: 5.75%;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 4px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.user-menu:before, .user-menu:after {
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: 100%;
+    width: 0;
+    height: 0;
+  }
+  .user-menu:before {
+    left: calc(50% - 1px);
+    border: 11px solid transparent;
+    border-bottom-color: #ddd;
+    transform: translateX(-8px);
+  }
+  .user-menu:after {
+    left: 50%;
+    border: 10px solid transparent;
+    border-bottom-color: #fff;
+    transform: translateX(-8px);
+  }
+
+.user-menu a {
+    color: rgb(29, 29, 29);
+    font-size: 14px;
+}
+
+#show-menu:checked ~ .user-menu {
+    display: flex;
+}
+
+/* **************************** FILTERS **************************** */
+
+.filters-wrapper {
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+}
+
+.filters {
+    width: 95%;
+    overflow: hidden;
+}
+
+.filters__inner {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+.filters-wrapper .next,
+.filters-wrapper .prev {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    outline: none;
+    height: 21px;
+    width: 21px;
+}
+
+.filters-wrapper .next:hover,
+.filters-wrapper .prev:hover {
+    cursor: pointer;
+}
+
+.disabled {
+    fill: rgb(184, 184, 184);
+}
+
+.filters-wrapper .prev {
+    top: 0px;
+    left: 0;
+}
+
+.filters-wrapper .next {
+    top: 0;
+    right: 0;
+}
+
+.filters .link-container {
+    white-space: nowrap;
+}
+
+.filters .link-container:not(:last-child) {
+    margin-right: 20px;
+}
+
+.filters__link {
+    text-decoration: none;
+    text-transform: uppercase;
+    color: rgb(128, 128, 128);
+    font-size: 14px;
+    display: inline;
+}
+
+.active {
+    color: rgb(36, 36, 36);
+}
+
+.like-btn {
+    background-color: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    color: #c0392b;
+    transition: .3s;
+    outline: none;
+    margin-top: 10px;
+}
+
+.like-btn:hover {
+    filter: brightness(.8);
+    cursor: pointer;
+}
+
+.like-btn svg {
+    margin-right: 7px;
+}
+
+footer {
+    width: 100%;
+    height: 60px;
+    max-height: 80px;
+    border-top: 1px solid rgb(182, 182, 182);
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer__info {
+    color: rgb(94, 94, 94);
+    font-size: 12px;
+}
