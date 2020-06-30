@@ -1,0 +1,74 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+.form-container {
+    margin: 100px auto;
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    align-items: center;
+}
+
+.title {
+    text-align: center;
+    font-weight: lighter;
+}
+
+.register-form__lbl {
+    font-size: 15px;
+    margin-bottom: 12px;
+    text-align: center;
+    color: rgb(41, 41, 41);
+}
+
+.register-form input {
+    text-align: center;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid #a8a8a8;
+    width: 240px;
+    font-size: 18px;
+    color: #111;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+}
+
+.sign-in {
+    color: rgb(49, 49, 49);
+    margin-left: 5px;
+}
+
+.register-btn {
+    background-color: rgb(25, 25, 25);
+    border: none;
+    outline: none;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.register-btn:hover {
+    cursor: pointer;
+}
+
+.error-message {
+    color: rgb(141, 70, 70);
+    width: 400px;
+    text-align: center;
+    margin: 0;
+    margin-bottom: 20px;
+}
