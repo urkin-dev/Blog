@@ -138,13 +138,12 @@ def profile(req):
     profile = UserProfile.objects.get(user = req.user)
 
     try:
-        user         = User.objects.get(id = id)
-        user_profile = UserProfile.objects.get(user = user)
+        user_profile = UserProfile.objects.get(id = id)
     except:
         raise Http404('Пользователь не найден')
 
-    last_articles = Article.objects.filter(author = user).order_by('-pub_date')
-    last_comments = Comment.objects.filter(author = profile).order_by('-pub_date')
+    last_articles = Article.objects.filter(author = user_profile.user).order_by('-pub_date')
+    last_comments = Comment.objects.filter(author = user_profile).order_by('-pub_date')
 
     if (last_articles):
         last_articles = last_articles[0:8]
