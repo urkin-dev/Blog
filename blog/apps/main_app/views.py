@@ -135,10 +135,11 @@ def article(req):
 def profile(req):
 
     id      = req.GET.get('id')
+    profile = UserProfile.objects.get(user = req.user)
 
     try:
-        user    = User.objects.get(id = id)
-        profile = UserProfile.objects.get(user = user)
+        user         = User.objects.get(id = id)
+        user_profile = UserProfile.objects.get(user = user)
     except:
         raise Http404('Пользователь не найден')
 
@@ -151,7 +152,7 @@ def profile(req):
     if (last_comments):
         last_comments = last_comments[0:4]
 
-    return render(req, 'user/profile.html', {'lastArticles': last_articles, 'lastComments': last_comments, 'profile': profile})
+    return render(req, 'user/profile.html', {'lastArticles': last_articles, 'lastComments': last_comments, 'profile': profile, 'load_profile': user_profile})
 
 @login_required
 def edit_profile(req):
@@ -284,8 +285,7 @@ def register(req):
             form = CreateUserForm(req.POST) # Create new form to check validation
             if form.is_valid():
                 user = form.save() # Create new User
-                print(user)
-                UserProfile.objects.create(user = user) # Create Profile for new User
+                UserProfile.objects.create(id = user.id, user = user) # Create Profile for new User
                 username = form.cleaned_data.get('username')
                 auth_login(req, user)
                 return redirect('/profile/edit')

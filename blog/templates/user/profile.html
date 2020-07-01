@@ -13,21 +13,21 @@
         <div class="user">
             <div class="user__info">
                 <div class="user__info-top">
-                    <h1 class="user__info-name">{{profile.user}}</h1>
-                    {% if request.user == profile.user %}
+                    <h1 class="user__info-name">{{load_profile.user}}</h1>
+                    {% if request.user == load_profile.user %}
                         <a class="edit-profile" href="/profile/edit">Редактировать</a>
                     {% endif %}
                 </div>
                 <p class="user__info-bio">
-                    {% if profile.bio %}
-                        {{profile.bio}}
+                    {% if load_profile.bio %}
+                        {{load_profile.bio}}
                     {% else %}
                         <p class="add_bio">Пользователь не добавил описание</p>
                     {% endif %}
                 </p>
             </div>
             <div class="user__avatar">
-                <img class="user__avatar-img" src="{{profile.avatar.url}}" alt="Avatar">
+                <img class="user__avatar-img" src="{{load_profile.avatar.url}}" alt="Avatar">
             </div>
         </div>
         <div class="user_content">
