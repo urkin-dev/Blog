@@ -87,7 +87,7 @@ def loadArticles(req):
         article["img"]         = a.article_image.url
         article["title"]       = a.article_title
         article["desc"]        = a.article_description
-        article["author_name"] = a.author.username
+        article["author_name"] = a.author.user.username
         article["author_id"]   = a.author.id
         article["date"]        = a.pub_date.strftime("%d %B %Y %H:%M")
         article["category"]    = a.category.name
