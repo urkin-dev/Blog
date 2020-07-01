@@ -107,7 +107,7 @@ def article(req):
    
     try:
         article        = Article.objects.get(id = id)
-        profile        = UserProfile.objects.get(user = article.author)
+        profile        = UserProfile.objects.get(id = article.author.id)
     except:
         raise Http404('Статья не найдена')
 
@@ -142,7 +142,7 @@ def profile(req):
     except:
         raise Http404('Пользователь не найден')
 
-    last_articles = Article.objects.filter(author = user_profile.user).order_by('-pub_date')
+    last_articles = Article.objects.filter(author = user_profile).order_by('-pub_date')
     last_comments = Comment.objects.filter(author = user_profile).order_by('-pub_date')
 
     if (last_articles):

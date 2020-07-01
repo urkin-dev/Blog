@@ -53,7 +53,7 @@ class Article(models.Model):
     pub_date            = models.DateTimeField('Дата публикации')
     is_main_in_category = models.BooleanField('Главная статья в своей категории(можно поставить только 1)', default=False)
     is_main_in_homepage = models.BooleanField('Главная статья на домашней страницу(всего 3)', default=False)
-    author              = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE, default = '1')
+    author              = models.ForeignKey(UserProfile, on_delete = models.CASCADE)
     category            = models.ForeignKey(Category, on_delete=models.SET_DEFAULT, db_column='category_no', default=14)
     likes               = models.IntegerField(default=0)
 
